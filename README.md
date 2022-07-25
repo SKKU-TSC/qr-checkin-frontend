@@ -37,12 +37,12 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Todo 🚀
 
-- [x] Add frontend submodule
-- [x] Add backend submodule
-- [ ] Add docker
-- [ ] Add github workflow
-- [x] Add wiki
-- [ ] Add content to wiki
+- [x] Make file structure
+- [x] Include router
+- [ ] Make admin page
+- [ ] Implement QR code scanning with camera
+- [ ] Implement voice synthesis
+- [ ] Connect with backend (api)
 
 
 ## Learn More

@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import CssBaseline from '@mui/material/CssBaseline';
+
+// importing pages
+import Main from './pages/Main';
+import Login from './pages/Login';
+import User from './pages/User';
+import Admin from './pages/Admin';
+import UserTable from './pages/UserTable';
+import QRReader from './pages/QRReader';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+	const theme = React.useMemo(
+		() =>
+			createTheme({
+				palette: {
+					mode: prefersDarkMode ? 'dark' : 'light',
+					primary: {
+						main: '#006828',
+						contrastText: 'rgba(255,255,255,0.87)',
+					},
+					secondary: {
+						main: '#d4af37',
+						contrastText: 'rgba(0,0,0,0.87)',
+					},
+				},
+				typography: {
+					fontFamily: '"Noto Sans KR", sans-serif',
+				},
+			}),
+		[prefersDarkMode]
+	);
+
+	return (
+		<ThemeProvider theme={theme}>
+			<CssBaseline />
+			<BrowserRouter>
+				<Routes>
+					<Route path="/" element={<Main />} />
+					<Route path="login" element={<Login />} />
+					<Route path="user" element={<User />}>
+						<Route path=":userId" element={<User />} />
+					</Route>
+					<Route path="admin" element={<Admin />}>
+						<Route path="usertable" element={<UserTable />} />
+						<Route path="qrreader" element={<QRReader />} />
+					</Route>
+				</Routes>
+			</BrowserRouter>
+		</ThemeProvider>
+	);
 }
 
 export default App;

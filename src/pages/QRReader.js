@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { QRCodeSVG } from 'qrcode.react';
+import { useEffect, useState, useRef } from 'react';
 import {
 	Box,
 	Container,
@@ -13,6 +11,8 @@ import {
 } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import styled from '@emotion/styled';
+import QrScanner from 'qr-scanner';
+import io from 'socket.io-client';
 
 import ButtonAppBar from '../components/common/ButtonAppBar';
 import StickyFooter from '../components/common/StickyFooter';
@@ -37,114 +37,70 @@ const InnerDiv = styled(Container)`
 	margin: auto;
 `;
 
-const StyledCard = styled(Card)`
-	border-radius: 15px;
-	padding-top: 50px;
-	padding-bottom: 50px;
-	padding-left: 80px;
-	padding-right: 80px;
-	text-align: center;
-`;
+const StyledScanner = styled.video``;
 
-const StyledCardName = styled.p`
-	font-weight: bolder;
-	font-size: 1.7rem;
-	margin-bottom: 0;
-	margin-top: 10px;
-`;
+const socket = io.connect('http://localhost:8001', {
+	withCredentials: true,
+	extraHeaders: {
+		'my-custom-header': 'abcd',
+	},
+});
 
-const StyledCardMajor = styled.p`
-	font-weight: lighter;
-	font-size: 1.2rem;
-	margin-top: 1px;
-	padding-top: 0;
-`;
+export default function QRReader() {
+	const ref = useRef(null);
 
-const style = {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: 600,
-	display: 'flex',
-	justifyContent: 'center',
-	alignItems: 'center',
-	flexDirection: 'column',
-	bgcolor: 'background.paper',
-	boxShadow: 24,
-	p: 4,
-};
-
-export default function User() {
-	const { id } = useParams();
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [modalOpen, setModalOpen] = useState(false);
 
-	const handleOpen = () => setModalOpen(true);
-	const handleClose = () => setModalOpen(false);
+	// For Socket
+	const [isConnected, setIsConnected] = useState(socket.connected);
+	const [name, setName] = useState(null);
 
 	useEffect(() => {
+		const videoElem = ref.current;
+
 		// fetch(`/api/users/${id}`)
 		//     .then(res => res.json())
 		//     .then(data => {
 		//         setUser(data);
 		//         setLoading(false);
 		//     });
-		setUser({
-			id: id,
-			name: '강동헌',
-			studentId: '123456789',
-			major: '글로벌경영학과',
+
+		const qrScanner = new QrScanner(
+			videoElem,
+			(result) => socket.emit('display', result),
+			{
+				highlightScanRegion: true,
+				highlightCodeOutline: true,
+			}
+		);
+
+		qrScanner.start();
+
+		socket.on('connect', () => {
+			setIsConnected(true);
 		});
-		setLoading(false);
-	}, [id]);
+
+		socket.on('display', (data) => console.log(data));
+
+		socket.on('disconnect', () => {
+			setIsConnected(false);
+		});
+
+		return () => {
+			socket.off('connect');
+			socket.off('disconnect');
+			socket.off('display');
+		};
+	});
 
 	return (
 		<MainDiv>
 			<ButtonAppBar />
 
 			<InnerDiv>
-				{loading ? (
-					<CircularProgress />
-				) : (
-					<StyledCard>
-						<QRCodeSVG value={user.id} />
-						<br />
-						<Button onClick={handleOpen}>QR 크게하기</Button>
-
-						<Modal
-							open={modalOpen}
-							onClose={handleClose}
-							aria-labelledby="modal-modal-title"
-							aria-describedby="modal-modal-description"
-							closeAfterTransition
-							BackdropComponent={Backdrop}
-							BackdropProps={{
-								timeout: 500,
-							}}
-						>
-							<Fade in={modalOpen}>
-								<Box sx={style}>
-									<QRCodeSVG size={480} value={user.id} />
-									<Button
-										onClick={handleClose}
-										size="large"
-										sx={{ marginTop: 2 }}
-									>
-										나가기
-									</Button>
-								</Box>
-							</Fade>
-						</Modal>
-
-						<StyledCardName variant="h3">{user.name}</StyledCardName>
-						<StyledCardMajor variant="h5">{user.major}</StyledCardMajor>
-						<Button variant="contained" size="large" startIcon={<LogoutIcon />}>
-							나가기
-						</Button>
-					</StyledCard>
-				)}
+				<StyledScanner ref={ref} />
 			</InnerDiv>
 			<StickyFooter />
 		</MainDiv>

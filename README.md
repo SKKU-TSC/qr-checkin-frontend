@@ -40,7 +40,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 - [x] Make file structure
 - [x] Include router
 - [ ] Make admin page
-- [ ] Implement QR code scanning with camera
+- [x] Implement QR code scanning with camera
 - [ ] Implement voice synthesis
 - [ ] Connect with backend (api)
 

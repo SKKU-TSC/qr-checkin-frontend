@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Outlet } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import {
 	Box,
@@ -106,6 +106,7 @@ export default function User() {
 				{loading ? <CircularProgress /> : <StyledCard></StyledCard>}
 			</InnerDiv>
 			<StickyFooter />
+			<Outlet />
 		</MainDiv>
 	);
 }

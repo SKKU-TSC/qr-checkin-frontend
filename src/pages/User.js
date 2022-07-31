@@ -81,7 +81,6 @@ const StyledButton = styled(Button)`
 `;
 
 export default function User() {
-	const { id } = useParams();
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [modalOpen, setModalOpen] = useState(false);
@@ -97,13 +96,13 @@ export default function User() {
 		//         setLoading(false);
 		//     });
 		setUser({
-			id: id,
+			id: '2021311965',
 			name: '강동헌',
 			studentId: '123456789',
 			major: '글로벌경영학과',
 		});
 		setLoading(false);
-	}, [id]);
+	}, []);
 
 	return (
 		<MainDiv>

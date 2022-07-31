@@ -11,7 +11,7 @@ import User from "./pages/User";
 import Admin from "./pages/Admin";
 import UserTable from "./pages/UserTable";
 import QRReader from "./pages/QRReader";
-import axios from "axios";
+import Presentation from "./pages/Presentation";
 
 function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -46,10 +46,10 @@ function App() {
           <Route path="user" element={<User />}>
             <Route path=":userId" element={<User />} />
           </Route>
-          <Route path="admin" element={<Admin />}>
-            <Route path="usertable" element={<UserTable />} />
-            <Route path="qrreader" element={<QRReader />} />
-          </Route>
+          <Route path="admin" element={<Admin />} />
+          <Route path="admin/usertable" element={<UserTable />} />
+          <Route path="admin/qrreader" element={<QRReader />} />
+          <Route path="admin/presentation" element={<Presentation />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

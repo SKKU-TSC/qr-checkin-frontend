@@ -64,12 +64,6 @@ export default function Main() {
     <MainDiv>
       <ButtonAppBar />
       <InnerDiv>
-        <button type="button" onClick={() => login("2021311965", "1228")}>
-          로그인
-        </button>
-        <button type="button" onClick={() => logout()}>
-          로그아웃
-        </button>
         <TextWrapper maxWidth="sm">
           <Typography variant="h3" fontWeight={600}>
             QR로 간단하게!

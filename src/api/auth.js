@@ -8,18 +8,80 @@ export const login = async (studentId, password) => {
       studentId: studentId,
       password: password,
     });
-    console.log(result);
+    return result;
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
   }
 };
 
 export const logout = async () => {
   try {
-    console.log("로그아웃중");
     const result = await axios.post("/api/auth/logout");
-    console.log(result);
+    return result;
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
+  }
+};
+
+export const verify = async () => {
+  try {
+    const result = await axios.get("/api/auth/verify");
+    return result;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const getAllUsers = async () => {
+  try {
+    const result = await axios.get("/api/auth");
+    return result;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const addUser = async (
+  studentId,
+  password,
+  major,
+  name,
+  role,
+  degree
+) => {
+  try {
+    const body = { studentId, password, major, name, role, degree };
+    const result = axios.post("/api/auth/register", body);
+    return result;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const updateUser = async (id, properties) => {
+  try {
+    const body = properties;
+    const result = axios.patch(`/api/auth/${id}`, body);
+    return result;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const resetCheckInAll = async () => {
+  try {
+    const result = await axios.patch("/api/auth/checkin");
+    return result;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const resetCheckInOne = async (id) => {
+  try {
+    const result = await axios.patch(`/api/checkin/${id}`);
+    return result;
+  } catch (error) {
+    throw new Error(error.message);
   }
 };

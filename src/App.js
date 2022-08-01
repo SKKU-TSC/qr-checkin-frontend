@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -14,6 +14,7 @@ import QRReader from './pages/QRReader';
 import Presentation from './pages/Presentation';
 
 function App() {
+	const [token, setToken] = useState();
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 	const theme = React.useMemo(
 		() =>

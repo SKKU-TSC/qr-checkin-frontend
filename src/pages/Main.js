@@ -31,11 +31,21 @@ const InnerDiv = styled(Container)`
 `;
 
 const StyledImage = styled.img`
-	width: 400px;
+	width: 40%;
 	height: auto;
 	margin: 0;
 	padding: 0;
 	display: block;
+
+	@media (max-width: 600px) {
+		width: 60%;
+		margin-bottom: 20px;
+	}
+
+	@media (max-width: 400px) {
+		width: 60%;
+		margin-bottom: 20px;
+	}
 `;
 
 const TextWrapper = styled(Container)`

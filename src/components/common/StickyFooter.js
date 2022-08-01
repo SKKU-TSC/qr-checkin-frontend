@@ -9,7 +9,7 @@ function Copyright() {
 		<Typography variant="body2" color="text.secondary">
 			{'Copyright ©'}
 			<Link color="inherit" href="https://mui.com/">
-				성균관대학교 기술지원위원회
+				성균관대학교 스꾸디
 			</Link>{' '}
 			{new Date().getFullYear()}
 			{'.'}
@@ -32,7 +32,7 @@ export default function StickyFooter() {
 		>
 			<Container>
 				<Typography variant="body1">
-					Made with ❤️ by 성균관대학교 기술지원위원회
+					Made with ❤️ by 성균관대학교 스꾸디
 				</Typography>
 				<Copyright />
 			</Container>

@@ -39,7 +39,7 @@ const InnerDiv = styled(Container)`
 
 const StyledScanner = styled.video``;
 
-const socket = io.connect('http://localhost:8001', {
+const socket = io.connect('http://localhost:8000', {
 	withCredentials: true,
 	extraHeaders: {
 		'my-custom-header': 'abcd',
@@ -50,7 +50,7 @@ export default function QRReader() {
 	const ref = useRef(null);
 
 	const [user, setUser] = useState(null);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
 
 	// For Socket
@@ -69,12 +69,25 @@ export default function QRReader() {
 
 		const qrScanner = new QrScanner(
 			videoElem,
-			(result) => socket.emit('display', result),
+			(result) => {
+				console.log(result.data);
+				pauseScanner();
+				// socket.emit('display', result);
+			},
 			{
 				highlightScanRegion: true,
 				highlightCodeOutline: true,
+				maxScansPerSecond: 1,
 			}
 		);
+
+		function pauseScanner() {
+			// pause scanner for 2 seconds
+			qrScanner.pause();
+			setTimeout(() => {
+				qrScanner.start();
+			}, 2000);
+		}
 
 		qrScanner.start();
 
@@ -93,13 +106,21 @@ export default function QRReader() {
 			socket.off('disconnect');
 			socket.off('display');
 		};
-	});
+	}, []);
+
+	if (loading === true) {
+		setTimeout(() => {
+			console.log('fetch' + user);
+			setLoading(false);
+		}, 2000);
+	}
 
 	return (
 		<MainDiv>
 			<ButtonAppBar />
 
 			<InnerDiv>
+				{loading ? <CircularProgress /> : <></>}
 				<StyledScanner ref={ref} />
 			</InnerDiv>
 			<StickyFooter />

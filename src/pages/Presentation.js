@@ -57,8 +57,9 @@ const Degree = styled.h3`
 	-webkit-text-fill-color: transparent;
 `;
 
-const socket = io.connect('http://localhost:8001', {
+const socket = io.connect('http://localhost:8000', {
 	withCredentials: true,
+	cors: { origin: '*' },
 	extraHeaders: {
 		'my-custom-header': 'abcd',
 	},
@@ -71,10 +72,15 @@ export default function Presentation(params) {
 	useEffect(() => {
 		const handler = (data) => {
 			setData(data);
+			// let utterance = new SpeechSynthesisUtterance("test");
+			// utterance.lang = 'ko-KR';
+			// speechSynthesis.speak(utterance);
 			console.log(data);
 		};
+
 		socket.on('connect', () => {
 			setIsConnected(true);
+			console.log('test')
 		});
 
 		socket.on('disconnect', () => {

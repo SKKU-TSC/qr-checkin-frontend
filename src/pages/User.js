@@ -44,7 +44,7 @@ export default function User() {
 		setUser({
 			id: '2021311965',
 			name: '강동헌',
-			studentId: '123456789',
+			studentId: '2021311965',
 			major: '글로벌경영학과',
 		});
 		console.log(user)

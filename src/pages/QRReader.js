@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { ReactDOM } from 'react';
 import {
 	Box,
 	Container,
@@ -11,7 +12,7 @@ import {
 } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import styled from '@emotion/styled';
-import QrScanner from 'qr-scanner';
+import { QrReader } from '@blackbox-vision/react-qr-reader';
 import io from 'socket.io-client';
 
 import ButtonAppBar from '../components/common/ButtonAppBar';
@@ -33,11 +34,8 @@ const InnerDiv = styled(Container)`
 	align-items: center;
 	align-content: center;
 	justify-content: center;
-	height: 100%;
 	margin: auto;
 `;
-
-const StyledScanner = styled.video``;
 
 const socket = io.connect('http://localhost:8000', {
 	withCredentials: true,
@@ -47,55 +45,40 @@ const socket = io.connect('http://localhost:8000', {
 });
 
 export default function QRReader() {
-	const ref = useRef(null);
+	const delay = 1000;
 
-	const [user, setUser] = useState(null);
-	const [loading, setLoading] = useState(false);
-	const [modalOpen, setModalOpen] = useState(false);
+	const previewStyle = {
+		height: 240,
+		width: 320,
+	};
 
-	// For Socket
-	const [isConnected, setIsConnected] = useState(socket.connected);
-	const [name, setName] = useState(null);
+	const [lastResult, setLastResult] = useState(null);
+	const [isConnected, setIsConnected] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
-	useEffect(() => {
-		const videoElem = ref.current;
+	let lastResultRef = null;
 
-		// fetch(`/api/users/${id}`)
-		//     .then(res => res.json())
-		//     .then(data => {
-		//         setUser(data);
-		//         setLoading(false);
-		//     });
-
-		const qrScanner = new QrScanner(
-			videoElem,
-			(result) => {
-				console.log(result.data);
-				pauseScanner();
-				// socket.emit('display', result);
-			},
-			{
-				highlightScanRegion: true,
-				highlightCodeOutline: true,
-				maxScansPerSecond: 1,
-			}
-		);
-
-		function pauseScanner() {
-			// pause scanner for 2 seconds
-			qrScanner.pause();
-			setTimeout(() => {
-				qrScanner.start();
-			}, 2000);
+	const handleScan = (result, error) => {
+		if (lastResultRef === result?.text) {
+			return;
 		}
 
-		qrScanner.start();
+		if (!!result) {
+			setLastResult(result?.text);
+			console.log('send fetch');
+			lastResultRef = result?.text;
+			socket.emit('displaySet', result?.text);
+		}
 
+		if (!!error) {
+			console.info(error);
+		}
+	};
+
+	useEffect(() => {
 		socket.on('connect', () => {
 			setIsConnected(true);
 		});
-
-		socket.on('display', (data) => console.log(data));
 
 		socket.on('disconnect', () => {
 			setIsConnected(false);
@@ -104,25 +87,22 @@ export default function QRReader() {
 		return () => {
 			socket.off('connect');
 			socket.off('disconnect');
-			socket.off('display');
+			socket.off('displaySet');
 		};
-	}, []);
-
-	if (loading === true) {
-		setTimeout(() => {
-			console.log('fetch' + user);
-			setLoading(false);
-		}, 2000);
-	}
+	});
 
 	return (
 		<MainDiv>
 			<ButtonAppBar />
-
-			<InnerDiv>
-				{loading ? <CircularProgress /> : <></>}
-				<StyledScanner ref={ref} />
-			</InnerDiv>
+			<div id="qr-reader">
+				<QrReader
+					scanDelay={delay}
+					style={previewStyle}
+					onResult={handleScan}
+					constraints={{ facingMode: 'user' }}
+				/>
+			</div>
+			{lastResult}
 			<StickyFooter />
 		</MainDiv>
 	);

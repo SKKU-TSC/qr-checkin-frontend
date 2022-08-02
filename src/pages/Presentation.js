@@ -2,23 +2,31 @@ import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import styled from '@emotion/styled';
 
-const LogoImage = styled.img`
-	//make image center and transparent
-	position: absolute;
-	opacity: 0.5;
-	z-index: 1;
-`;
-
 const MainContainer = styled.div`
 	height: 100vh;
+	background-color: #1f321c;
+	color: white;
 	display: flex;
-	background-color: white;
 	flex-direction: column;
-    padding-left: 100px;
-	align-items: flex-start;
+	align-items: center;
 	align-content: center;
 	justify-content: center;
-	z-index: -1;
+	position: relative;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		bottom: 0px;
+		left: 0px;
+		opacity: 0.1;
+		//use background image
+		background-image: url('/Emblem.png');
+		background-repeat: no-repeat;
+		background-size: 700px;
+		background-position: center;
+	}
 `;
 
 const Name = styled.h1`
@@ -27,7 +35,6 @@ const Name = styled.h1`
 	letter-spacing: 0.4rem;
 	z-index: 2;
 	margin-top: 0;
-	color: #50c401;
 `;
 
 const Major = styled.h2`
@@ -35,12 +42,6 @@ const Major = styled.h2`
 	letter-spacing: 0.5rem;
 	margin-top: -10px;
 	z-index: 2;
-	background: -webkit-linear-gradient(
-		rgba(80, 196, 1, 1) 0%,
-		rgba(120, 195, 20, 1) 100%
-	);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
 `;
 
 const Degree = styled.h3`
@@ -48,13 +49,36 @@ const Degree = styled.h3`
 	letter-spacing: 0.5rem;
 	margin-top: -10px;
 	z-index: 2;
-	background: -webkit-linear-gradient(
-		90deg,
-		rgba(127, 195, 23, 1) 0%,
-		rgba(142, 195, 30, 1) 100%
-	);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
+`;
+
+const BottomLogoContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	align-content: center;
+	justify-content: space-evenly;
+	padding-bottom: 10px;
+`;
+
+const Bottom = styled.div`
+	position: absolute;
+	bottom: 0;
+	width: 100vw;
+`;
+
+const Logo1 = styled.h1`
+	font-weight: 400;
+	font-size: 30px;
+`;
+
+const Logo2 = styled.img`
+	width: 250px;
+	height: auto;
+	object-fit: contain;
+`;
+
+const Logo3 = styled.h1`
+	font-weight: 400;
 `;
 
 const socket = io.connect('http://localhost:8000', {
@@ -65,35 +89,29 @@ const socket = io.connect('http://localhost:8000', {
 	},
 });
 
-export default function Presentation(params) {
+export default function Presentation() {
 	const [isConnected, setIsConnected] = useState(socket.connected);
-	const [data, setData] = useState(null);
+	const [data, setData] = useState();
 
 	useEffect(() => {
-		const handler = (data) => {
-			setData(data);
-			// let utterance = new SpeechSynthesisUtterance("test");
-			// utterance.lang = 'ko-KR';
-			// speechSynthesis.speak(utterance);
-			console.log(data);
-		};
-
 		socket.on('connect', () => {
 			setIsConnected(true);
-			console.log('test')
+			console.log('connect');
 		});
 
 		socket.on('disconnect', () => {
 			setIsConnected(false);
 		});
 
-		socket.on('display', handler);
+		socket.on('display', (data) => {
+			setData(data);
+			console.log('wang');
+		});
 
-		return () => {
-			socket.off('connect');
-			socket.off('disconnect');
-			socket.off('pong');
-		};
+		// return () => {
+		// 	socket.off('connect');
+		// 	socket.off('disconnect');
+		// };
 	}, []);
 
 	return (
@@ -102,13 +120,20 @@ export default function Presentation(params) {
 				<>
 					<Name>{data?.name}</Name>
 					<Major>{data?.major}</Major>
-					<Degree>학사</Degree>
+					<Degree>{data?.degree}</Degree>
 				</>
 			) : (
 				<div>
 					<h1>Not connected</h1>
 				</div>
 			)}
+			<Bottom>
+				<BottomLogoContainer>
+					<Logo1>Logo 1</Logo1>
+					<Logo2 src="/school_logo.png" />
+					<Logo3>Logo 2</Logo3>
+				</BottomLogoContainer>
+			</Bottom>
 		</MainContainer>
 	);
 }

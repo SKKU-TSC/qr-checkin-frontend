@@ -93,11 +93,7 @@ const socket = io.connect('https://api.skku-qr.com', {
 
 export default function Presentation() {
 	const [isConnected, setIsConnected] = useState(socket.connected);
-	const [data, setData] = useState({
-		name: '강동헌',
-		major: '글로벌경영학과',
-		degree: '학사',
-	});
+	const [data, setData] = useState(null);
 
 	useEffect(() => {
 		socket.on('connect', () => {

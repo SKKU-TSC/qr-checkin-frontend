@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import io from 'socket.io-client';
 import styled from '@emotion/styled';
+import { SocketContext } from '../hooks/socket';
+
+const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
 const MainContainer = styled.div`
 	height: 100vh;
@@ -86,49 +89,31 @@ const Logo3 = styled.h1`
 	font-weight: 400;
 `;
 
-const socket = io.connect('https://api.skku-qr.com', {
-	withCredentials: true,
-	cors: { origin: '*' },
-});
-
 export default function Presentation() {
-	const [isConnected, setIsConnected] = useState(socket.connected);
 	const [data, setData] = useState(null);
 
+	const socket = useContext(SocketContext);
+
 	useEffect(() => {
-		socket.on('connect', () => {
-			setIsConnected(true);
-			console.log('connect');
-		});
-
-		socket.on('disconnect', () => {
-			setIsConnected(false);
-		});
-
 		socket.on('display', (data) => {
+			//Delete console log for production
+			console.log(data);
 			setData(data);
-			console.log('wang');
 		});
 
-		// return () => {
-		// 	socket.off('connect');
-		// 	socket.off('disconnect');
-		// };
-	}, []);
+		return () => {
+			socket.off('display');
+		};
+	}, [socket]);
 
 	return (
 		<MainContainer>
-			{isConnected ? (
-				<>
-					<Name>{data?.name}</Name>
-					<Major>{data?.major}</Major>
-					<Degree>{data?.degree}</Degree>
-				</>
-			) : (
-				<div>
-					<h1>Not connected</h1>
-				</div>
-			)}
+			<>
+				<Name>{data?.name}</Name>
+				<Major>{data?.major}</Major>
+				<Degree>{data?.degree}</Degree>
+			</>
+
 			<Bottom>
 				<BottomLogoContainer>
 					<Logo1>2022 여름 학위수여식</Logo1>

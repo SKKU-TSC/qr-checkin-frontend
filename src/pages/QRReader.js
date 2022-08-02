@@ -1,22 +1,14 @@
-import { useEffect, useState, useRef } from 'react';
-import { ReactDOM } from 'react';
-import {
-	Box,
-	Container,
-	CircularProgress,
-	Card,
-	Button,
-	Modal,
-	Fade,
-	Backdrop,
-} from '@mui/material';
+import { useEffect, useState, useContext } from 'react';
+import { Container } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import styled from '@emotion/styled';
 import { QrReader } from '@blackbox-vision/react-qr-reader';
-import io from 'socket.io-client';
+import { SocketContext } from '../hooks/socket';
 
 import ButtonAppBar from '../components/common/ButtonAppBar';
 import StickyFooter from '../components/common/StickyFooter';
+
+const SOCKET_URL = process.env.SOCKET_URL;
 
 const MainDiv = styled(Container)`
 	margin: 0 !important;
@@ -37,14 +29,9 @@ const InnerDiv = styled(Container)`
 	margin: auto;
 `;
 
-const socket = io.connect('https://api.skku-qr.com', {
-	withCredentials: true,
-	extraHeaders: {
-		'my-custom-header': 'abcd',
-	},
-});
-
 export default function QRReader() {
+	const socket = useContext(SocketContext);
+	
 	const delay = 1000;
 
 	const previewStyle = {
@@ -102,7 +89,6 @@ export default function QRReader() {
 					constraints={{ facingMode: 'user' }}
 				/>
 			</div>
-			{lastResult}
 			<StickyFooter />
 		</MainDiv>
 	);

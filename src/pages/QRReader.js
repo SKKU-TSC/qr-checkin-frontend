@@ -48,7 +48,7 @@ export default function QRReader() {
 	const delay = 1000;
 
 	const previewStyle = {
-		height: 240,
+		height: 10,
 		width: 320,
 	};
 

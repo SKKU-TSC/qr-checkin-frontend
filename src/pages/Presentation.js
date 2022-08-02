@@ -30,25 +30,30 @@ const MainContainer = styled.div`
 `;
 
 const Name = styled.h1`
-	font-size: 5rem;
+	font-size: 11rem;
 	font-weight: bolder;
 	letter-spacing: 0.4rem;
 	z-index: 2;
 	margin-top: 0;
+	margin-bottom: 0;
 `;
 
 const Major = styled.h2`
-	font-size: 2.5rem;
+	font-size: 5rem;
 	letter-spacing: 0.5rem;
-	margin-top: -10px;
+	font-weight: 600;
 	z-index: 2;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-bottom: 0;
 `;
 
 const Degree = styled.h3`
-	font-size: 1.5rem;
+	font-size: 4rem;
 	letter-spacing: 0.5rem;
-	margin-top: -10px;
 	z-index: 2;
+	margin-bottom: 0;
+	padding-bottom: 0;
 `;
 
 const BottomLogoContainer = styled.div`
@@ -67,7 +72,7 @@ const Bottom = styled.div`
 `;
 
 const Logo1 = styled.h1`
-	font-weight: 400;
+	font-weight: 600;
 	font-size: 30px;
 `;
 
@@ -91,7 +96,7 @@ const socket = io.connect('http://localhost:8000', {
 
 export default function Presentation() {
 	const [isConnected, setIsConnected] = useState(socket.connected);
-	const [data, setData] = useState();
+	const [data, setData] = useState({name: "강동헌", major: "글로벌경영학과", degree: "학사"});
 
 	useEffect(() => {
 		socket.on('connect', () => {
@@ -129,7 +134,7 @@ export default function Presentation() {
 			)}
 			<Bottom>
 				<BottomLogoContainer>
-					<Logo1>Logo 1</Logo1>
+					<Logo1>2022 여름 학위수여식</Logo1>
 					<Logo2 src="/school_logo.png" />
 					<Logo3>Logo 2</Logo3>
 				</BottomLogoContainer>

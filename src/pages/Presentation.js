@@ -86,17 +86,18 @@ const Logo3 = styled.h1`
 	font-weight: 400;
 `;
 
-const socket = io.connect('http://localhost:8000', {
+const socket = io.connect('https://api.skku-qr.com', {
 	withCredentials: true,
 	cors: { origin: '*' },
-	extraHeaders: {
-		'my-custom-header': 'abcd',
-	},
 });
 
 export default function Presentation() {
 	const [isConnected, setIsConnected] = useState(socket.connected);
-	const [data, setData] = useState({name: "강동헌", major: "글로벌경영학과", degree: "학사"});
+	const [data, setData] = useState({
+		name: '강동헌',
+		major: '글로벌경영학과',
+		degree: '학사',
+	});
 
 	useEffect(() => {
 		socket.on('connect', () => {

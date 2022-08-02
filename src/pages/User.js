@@ -32,15 +32,6 @@ export default function User() {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		// fetch(`/api/users/${id}`)
-		//     .then(res => res.json())
-		//     .then(data => {
-		//         setUser(data);
-		//         setLoading(false);
-		//     });
-
-		//async function 
-
 		setUser({
 			id: '2021311965',
 			name: '강동헌',

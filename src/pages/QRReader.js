@@ -37,7 +37,7 @@ const InnerDiv = styled(Container)`
 	margin: auto;
 `;
 
-const socket = io.connect('http://localhost:8000', {
+const socket = io.connect('https://api.skku-qr.com', {
 	withCredentials: true,
 	extraHeaders: {
 		'my-custom-header': 'abcd',

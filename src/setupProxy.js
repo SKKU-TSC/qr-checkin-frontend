@@ -4,7 +4,8 @@ module.exports = function (app) {
   app.use(
     "/api",
     createProxyMiddleware({
-      target: "http://localhost:8000",
+      target: "https://api.skku-qr.com",
+      changeOrigin: true,
       pathRewrite: {
         "^/api": "",
       },

@@ -8,6 +8,7 @@ export const login = async (studentId, password) => {
       studentId: studentId,
       password: password,
     });
+
     return result;
   } catch (error) {
     throw new Error(error.message);
@@ -35,7 +36,7 @@ export const verify = async () => {
 export const getAllUsers = async () => {
   try {
     const result = await axios.get("/api/auth");
-    return result;
+    return result.data.data.users;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -51,6 +52,7 @@ export const addUser = async (
 ) => {
   try {
     const body = { studentId, password, major, name, role, degree };
+    console.log(body);
     const result = axios.post("/api/auth/register", body);
     return result;
   } catch (error) {

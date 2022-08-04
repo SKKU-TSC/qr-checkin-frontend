@@ -1,4 +1,5 @@
 import axios from "axios";
+import { userValidation } from "./validations";
 
 axios.defaults.withCredentials = true;
 
@@ -51,12 +52,21 @@ export const addUser = async (
   degree
 ) => {
   try {
-    const body = { studentId, password, major, name, role, degree };
-    console.log(body);
+    const body = {
+      studentId,
+      password,
+      major,
+      name,
+      role,
+      degree,
+      isCheckedIn: false,
+    };
+    if (!userValidation(body))
+      throw Error("유효성 검사에서 통과하지 못했습니다.");
     const result = axios.post("/api/auth/register", body);
     return result;
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(error);
   }
 };
 

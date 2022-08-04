@@ -75,7 +75,7 @@ export default function User() {
         ) : (
           <div>
             <UserTable />
-            <UserForm />
+            <UserForm isUpdating={false} />
           </div>
         )}
       </InnerDiv>

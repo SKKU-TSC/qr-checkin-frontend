@@ -1,4 +1,5 @@
 import axios from "axios";
+import { userValidation } from "./validations";
 
 axios.defaults.withCredentials = true;
 
@@ -8,6 +9,7 @@ export const login = async (studentId, password) => {
       studentId: studentId,
       password: password,
     });
+
     return result;
   } catch (error) {
     throw new Error(error.message);
@@ -35,7 +37,7 @@ export const verify = async () => {
 export const getAllUsers = async () => {
   try {
     const result = await axios.get("/api/auth");
-    return result;
+    return result.data.data.users;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -50,11 +52,21 @@ export const addUser = async (
   degree
 ) => {
   try {
-    const body = { studentId, password, major, name, role, degree };
+    const body = {
+      studentId,
+      password,
+      major,
+      name,
+      role,
+      degree,
+      isCheckedIn: false,
+    };
+    if (!userValidation(body))
+      throw Error("유효성 검사에서 통과하지 못했습니다.");
     const result = axios.post("/api/auth/register", body);
     return result;
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(error);
   }
 };
 

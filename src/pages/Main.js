@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
+import { useEffect } from "react";
 import { Typography, Container, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { verify } from "../api/auth";
 import LoginIcon from "@mui/icons-material/Login";
 
 import ButtonAppBar from "../components/common/ButtonAppBar";
 import StickyFooter from "../components/common/StickyFooter";
-import { login, logout } from "../api/auth";
 
 const MainDiv = styled(Container)`
   margin: 0 !important;
@@ -32,21 +33,21 @@ const InnerDiv = styled(Container)`
 `;
 
 const StyledImage = styled.img`
-	width: 40%;
-	height: auto;
-	margin: 0;
-	padding: 0;
-	display: block;
+  width: 40%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  display: block;
 
-	@media (max-width: 600px) {
-		width: 60%;
-		margin-bottom: 20px;
-	}
+  @media (max-width: 600px) {
+    width: 60%;
+    margin-bottom: 20px;
+  }
 
-	@media (max-width: 400px) {
-		width: 60%;
-		margin-bottom: 20px;
-	}
+  @media (max-width: 400px) {
+    width: 60%;
+    margin-bottom: 20px;
+  }
 `;
 
 const TextWrapper = styled(Container)`
@@ -70,6 +71,20 @@ const StyledLink = styled(Link)`
 `;
 
 export default function Main() {
+  const navigate = useNavigate();
+  const verifyUser = () => {
+    verify().then(
+      ({
+        data: {
+          data: { role },
+        },
+      }) => {
+        if (role === "admin") navigate("/admin"); //admin 유저일 경우
+        else navigate("/"); //일반 유저일 경우
+      }
+    );
+  };
+  useEffect(() => verifyUser(), []);
   return (
     <MainDiv>
       <ButtonAppBar />

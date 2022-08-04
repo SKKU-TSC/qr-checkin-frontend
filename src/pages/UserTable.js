@@ -16,6 +16,8 @@ import styled from "@emotion/styled";
 
 import ButtonAppBar from "../components/common/ButtonAppBar";
 import StickyFooter from "../components/common/StickyFooter";
+import UserTable from "../components/admin/AdminTable";
+import UserForm from "../components/admin/UserForm";
 import { logout } from "../api/auth";
 
 const MainDiv = styled(Container)`
@@ -67,7 +69,16 @@ export default function User() {
     <MainDiv>
       <ButtonAppBar />
 
-      <InnerDiv>{loading ? <CircularProgress /> : <h1>Hi</h1>}</InnerDiv>
+      <InnerDiv>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <div>
+            <UserTable />
+            <UserForm isUpdating={false} />
+          </div>
+        )}
+      </InnerDiv>
       <StickyFooter />
     </MainDiv>
   );

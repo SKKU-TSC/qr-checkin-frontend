@@ -31,13 +31,8 @@ const MainDiv = styled(Container)`
 `;
 
 const InnerDiv = styled(Container)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  height: 100%;
-  margin: auto;
+  padding-top: 25px;
+  padding-bottom: 25px;
 `;
 
 export default function User() {
@@ -75,7 +70,6 @@ export default function User() {
         ) : (
           <div>
             <UserTable />
-            <UserForm />
           </div>
         )}
       </InnerDiv>

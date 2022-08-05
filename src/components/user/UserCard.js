@@ -13,6 +13,12 @@ const StyledCard = styled(Card)`
 	padding-right: 40px;
 	text-align: center;
 	border-radius: 16px;
+
+	//media query
+	@media (max-width: 600px) {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
 `;
 
 const StyledCardName = styled.p`
@@ -109,7 +115,7 @@ export default function UserCard(props) {
 						<div>
 							<StyledQRCodeCanvas
 								value={props.user.studentId}
-								size={200}
+								size={400}
 								bgColor={'#ffffff'}
 								fgColor={'#000000'}
 								level={'L'}
@@ -141,7 +147,7 @@ export default function UserCard(props) {
 			</StyledButton>
 
 			<StyledButton variant="outlined" size="large" startIcon={<LogoutIcon />}>
-				나가기
+				로그아웃
 			</StyledButton>
 		</StyledCard>
 	);

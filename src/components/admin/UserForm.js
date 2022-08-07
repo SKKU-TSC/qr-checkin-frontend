@@ -4,6 +4,14 @@ import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { addUser, updateUser } from "../../api/auth";
+import styled from "@emotion/styled"
+
+
+const FlexBox = styled.div`
+  display: flex;
+  margin-top: 10px;
+  justify-content: flex-end;
+`
 
 export default function UserForm(props) {
   const [isUpdating, setIsUpdating] = useState(props?.isUpdating);
@@ -27,6 +35,7 @@ export default function UserForm(props) {
     <>
       <Container component="main" maxWidth="xs">
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <h2>졸업생 추가</h2>
           <TextField
             margin="normal"
             required
@@ -75,6 +84,7 @@ export default function UserForm(props) {
             label="권한"
             autoFocus
           />
+          <FlexBox>
           <Button
             type="submit"
             variant="contained"
@@ -82,6 +92,7 @@ export default function UserForm(props) {
           >
             제출하기
           </Button>
+          </FlexBox>
         </Box>
       </Container>
     </>

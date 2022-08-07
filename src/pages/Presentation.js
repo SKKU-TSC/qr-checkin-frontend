@@ -1,9 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import io from 'socket.io-client';
 import styled from '@emotion/styled';
-import { SocketContext } from '../hooks/socket';
-
-const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+import { SocketContext } from '../context/socket';
 
 const MainContainer = styled.div`
 	height: 100vh;
@@ -91,10 +89,16 @@ const Logo3 = styled.h1`
 
 export default function Presentation() {
 	const [data, setData] = useState(null);
+	const [connect, setConnect] = useState(false);
 
 	const socket = useContext(SocketContext);
 
 	useEffect(() => {
+		// on socket connect, set connect to true
+		socket.on('connect', () => {
+			setConnect(true);
+		});
+
 		socket.on('display', (data) => {
 			//Delete console log for production
 			console.log(data);
@@ -102,17 +106,22 @@ export default function Presentation() {
 		});
 
 		return () => {
+			socket.off('connect');
 			socket.off('display');
 		};
 	}, [socket]);
 
 	return (
 		<MainContainer>
-			<>
-				<Name>{data?.name}</Name>
-				<Major>{data?.major}</Major>
-				<Degree>{data?.degree}</Degree>
-			</>
+			{connect ? (
+				<>
+					<Name>{data?.name}</Name>
+					<Major>{data?.major}</Major>
+					<Degree>{data?.degree}</Degree>
+				</>
+			) : (
+				<h1>Not Connected</h1>
+			)}
 
 			<Bottom>
 				<BottomLogoContainer>

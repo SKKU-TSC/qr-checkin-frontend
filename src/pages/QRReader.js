@@ -3,12 +3,10 @@ import { Container } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import styled from '@emotion/styled';
 import { QrReader } from '@blackbox-vision/react-qr-reader';
-import { SocketContext } from '../hooks/socket';
+import { SocketContext } from '../context/socket';
 
 import ButtonAppBar from '../components/common/ButtonAppBar';
 import StickyFooter from '../components/common/StickyFooter';
-
-const SOCKET_URL = process.env.SOCKET_URL;
 
 const MainDiv = styled(Container)`
 	margin: 0 !important;

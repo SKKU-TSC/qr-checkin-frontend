@@ -5,7 +5,12 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { addUser, updateUser } from "../../api/auth";
 import styled from "@emotion/styled"
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import SelectLabels from "./UserForm_SelectBox";
 
 const FlexBox = styled.div`
   display: flex;
@@ -68,22 +73,7 @@ export default function UserForm(props) {
             label="학과"
             autoFocus
           />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="degree"
-            label="학위"
-            autoFocus
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="role"
-            label="권한"
-            autoFocus
-          />
+          <SelectLabels/>
           <FlexBox>
           <Button
             type="submit"

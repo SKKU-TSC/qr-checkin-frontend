@@ -6,6 +6,19 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import NativeSelect from "@mui/material/NativeSelect";
 import { addUser, updateUser } from "../../api/auth";
+import styled from "@emotion/styled";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import SelectLabels from "./UserForm_SelectBox";
+
+const FlexBox = styled.div`
+  display: flex;
+  margin-top: 10px;
+  justify-content: flex-end;
+`;
 
 export default function UserForm(props) {
   const [userData, setUserData] = useState({
@@ -58,6 +71,7 @@ export default function UserForm(props) {
     <>
       <Container component="main" maxWidth="xs">
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <h2>졸업생 추가</h2>
           <TextField
             margin="normal"
             required
@@ -100,45 +114,16 @@ export default function UserForm(props) {
               setUserData({ ...userData, major: e.target.value })
             }
           />
-          <NativeSelect required fullWidth id="degree" autoFocus>
-            <option
-              onClick={() => setUserData({ ...userData, degree: "학사" })}
+          <SelectLabels />
+          <FlexBox>
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ mt: 3, mb: 2, py: 1 }}
             >
-              학사
-            </option>
-            <option
-              onClick={() => setUserData({ ...userData, degree: "석사" })}
-            >
-              석사
-            </option>
-            <option
-              onClick={() => setUserData({ ...userData, degree: "박사" })}
-            >
-              박사
-            </option>
-            <option
-              onClick={() => setUserData({ ...userData, degree: "admin" })}
-            >
-              admin
-            </option>
-          </NativeSelect>
-          <NativeSelect required fullWidth id="role" autoFocus margin="dense">
-            <option
-              onClick={() => setUserData({ ...userData, role: "client" })}
-            >
-              client
-            </option>
-            <option onClick={() => setUserData({ ...userData, role: "admin" })}>
-              admin
-            </option>
-          </NativeSelect>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ mt: 3, mb: 2, py: 1 }}
-          >
-            제출하기
-          </Button>
+              제출하기
+            </Button>
+          </FlexBox>
         </Box>
       </Container>
     </>

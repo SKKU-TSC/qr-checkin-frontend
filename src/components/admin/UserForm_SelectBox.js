@@ -11,8 +11,6 @@ import styled from '@emotion/styled';
 const FlexBox2 = styled.div`
   display: flex;
   justify-content: space-between;
-  margin : 0;
-  padding : 0;
 `
 
 export default function SelectLabels() {
@@ -26,8 +24,13 @@ export default function SelectLabels() {
     <div>    
       
       <FlexBox2>
-      <FormControl sx={{ m: 1.5, minWidth: 180 }}>
-        <InputLabel id="demo-simple-select-helper-label">학위</InputLabel>
+      <FormControl sx={{ mt: 2, minWidth: 190 }}>
+        <InputLabel 
+        id="demo-simple-select-helper-label"
+        required
+        >
+        학위
+        </InputLabel>
         <Select
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
@@ -42,8 +45,12 @@ export default function SelectLabels() {
         </Select>  
       </FormControl>
       
-      <FormControl sx={{ m: 1.5, minWidth: 180 }}>
-        <InputLabel id="demo-simple-select-helper-label">권한</InputLabel>
+      <FormControl sx={{ mt: 2, minWidth: 190 }}>
+        <InputLabel 
+        id="demo-simple-select-helper-label" 
+        required>
+        권한
+        </InputLabel>
         <Select
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"

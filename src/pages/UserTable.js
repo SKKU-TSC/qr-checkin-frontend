@@ -74,7 +74,6 @@ export default function User() {
         )}
       </InnerDiv>
       <StickyFooter />
-      <UserForm />
     </MainDiv>
   );
 }

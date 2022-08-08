@@ -14,7 +14,7 @@ import Admin from "./pages/Admin";
 import UserTable from "./pages/UserTable";
 import QRReader from "./pages/QRReader";
 import Presentation from "./pages/Presentation";
-import UserForm from "./components/admin/UserForm";
+import UserFormPage from "./pages/UserFormPage";
 
 function App() {
   const [token, setToken] = useState();
@@ -66,7 +66,7 @@ function App() {
             </Route>
             <Route path="admin" element={<Admin />} />
             <Route path="admin/usertable" element={<UserTable />} />
-            <Route path="admin/userform" element={<UserForm />} />
+            <Route path="admin/userform" element={<UserFormPage />} />
             <Route path="admin/qrreader" element={<QRReader />} />
             <Route path="admin/presentation" element={<Presentation />} />
           </Routes>

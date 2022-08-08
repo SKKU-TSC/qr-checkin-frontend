@@ -13,6 +13,12 @@ const StyledCard = styled(Card)`
 	padding-right: 40px;
 	text-align: center;
 	border-radius: 16px;
+
+	//media query
+	@media (max-width: 600px) {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
 `;
 
 const StyledCardName = styled.p`
@@ -34,7 +40,7 @@ const style = {
 	top: '50%',
 	left: '50%',
 	transform: 'translate(-50%, -50%)',
-	width: 600,
+	wstudentIdth: 600,
 	display: 'flex',
 	justifyContent: 'center',
 	alignItems: 'center',
@@ -47,6 +53,10 @@ const style = {
 const StyledButton = styled(Button)`
 	border-radius: 8px;
 	margin: 0 5px;
+`;
+
+const StyledQRCodeCanvas = styled(QRCodeCanvas)`
+	border-radius: 25px;
 `;
 
 function downloadBlob(blob, filename) {
@@ -78,7 +88,14 @@ export default function UserCard(props) {
 
 	return (
 		<StyledCard ref={canvasRef}>
-			<QRCodeCanvas value={props.user.id} />
+			<StyledQRCodeCanvas
+				value={props.user.studentId}
+				size={200}
+				bgColor={'#ffffff'}
+				fgColor={'#000000'}
+				level={'L'}
+				includeMargin={true}
+			/>
 			<br />
 			<Button onClick={handleOpen}>QR 크게하기</Button>
 
@@ -96,7 +113,14 @@ export default function UserCard(props) {
 				<Fade in={modalOpen}>
 					<Box sx={style}>
 						<div>
-							<QRCodeCanvas value={props.user.id} size={500} />
+							<StyledQRCodeCanvas
+								value={props.user.studentId}
+								size={400}
+								bgColor={'#ffffff'}
+								fgColor={'#000000'}
+								level={'L'}
+								includeMargin={true}
+							/>
 						</div>
 
 						<Button onClick={handleClose} size="large" sx={{ marginTop: 2 }}>
@@ -115,7 +139,7 @@ export default function UserCard(props) {
 				onClick={() => {
 					exportAsImage(
 						canvasRef.current,
-						`${props.user.name}_${props.user.id}`
+						`${props.user.name}_${props.user.studentId}`
 					);
 				}}
 			>
@@ -123,7 +147,7 @@ export default function UserCard(props) {
 			</StyledButton>
 
 			<StyledButton variant="outlined" size="large" startIcon={<LogoutIcon />}>
-				나가기
+				로그아웃
 			</StyledButton>
 		</StyledCard>
 	);

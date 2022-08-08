@@ -1,114 +1,126 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import io from 'socket.io-client';
 import styled from '@emotion/styled';
+import { SocketContext } from '../hooks/socket';
 
-const LogoImage = styled.img`
-	//make image center and transparent
-	position: absolute;
-	opacity: 0.5;
-	z-index: 1;
-`;
+const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
 const MainContainer = styled.div`
 	height: 100vh;
+	background-color: #1f321c;
+	color: white;
 	display: flex;
-	background-color: white;
 	flex-direction: column;
-    padding-left: 100px;
-	align-items: flex-start;
+	align-items: center;
 	align-content: center;
 	justify-content: center;
-	z-index: -1;
+	position: relative;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		bottom: 0px;
+		left: 0px;
+		opacity: 0.1;
+		//use background image
+		background-image: url('/Emblem.png');
+		background-repeat: no-repeat;
+		background-size: 700px;
+		background-position: center;
+	}
 `;
 
 const Name = styled.h1`
-	font-size: 5rem;
+	font-size: 11rem;
 	font-weight: bolder;
 	letter-spacing: 0.4rem;
 	z-index: 2;
 	margin-top: 0;
-	color: #50c401;
+	margin-bottom: 0;
 `;
 
 const Major = styled.h2`
-	font-size: 2.5rem;
+	font-size: 5rem;
 	letter-spacing: 0.5rem;
-	margin-top: -10px;
+	font-weight: 600;
 	z-index: 2;
-	background: -webkit-linear-gradient(
-		rgba(80, 196, 1, 1) 0%,
-		rgba(120, 195, 20, 1) 100%
-	);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-bottom: 0;
 `;
 
 const Degree = styled.h3`
-	font-size: 1.5rem;
+	font-size: 4rem;
 	letter-spacing: 0.5rem;
-	margin-top: -10px;
 	z-index: 2;
-	background: -webkit-linear-gradient(
-		90deg,
-		rgba(127, 195, 23, 1) 0%,
-		rgba(142, 195, 30, 1) 100%
-	);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
+	margin-bottom: 0;
+	padding-bottom: 0;
 `;
 
-const socket = io.connect('http://localhost:8000', {
-	withCredentials: true,
-	cors: { origin: '*' },
-	extraHeaders: {
-		'my-custom-header': 'abcd',
-	},
-});
+const BottomLogoContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	align-content: center;
+	justify-content: space-evenly;
+	padding-bottom: 10px;
+`;
 
-export default function Presentation(params) {
-	const [isConnected, setIsConnected] = useState(socket.connected);
+const Bottom = styled.div`
+	position: absolute;
+	bottom: 0;
+	width: 100vw;
+`;
+
+const Logo1 = styled.h1`
+	font-weight: 600;
+	font-size: 30px;
+`;
+
+const Logo2 = styled.img`
+	width: 250px;
+	height: auto;
+	object-fit: contain;
+`;
+
+const Logo3 = styled.h1`
+	font-weight: 400;
+`;
+
+export default function Presentation() {
 	const [data, setData] = useState(null);
 
+	const socket = useContext(SocketContext);
+
 	useEffect(() => {
-		const handler = (data) => {
-			setData(data);
-			// let utterance = new SpeechSynthesisUtterance("test");
-			// utterance.lang = 'ko-KR';
-			// speechSynthesis.speak(utterance);
+		socket.on('display', (data) => {
+			//Delete console log for production
 			console.log(data);
-		};
-
-		socket.on('connect', () => {
-			setIsConnected(true);
-			console.log('test')
+			setData(data);
 		});
-
-		socket.on('disconnect', () => {
-			setIsConnected(false);
-		});
-
-		socket.on('display', handler);
 
 		return () => {
-			socket.off('connect');
-			socket.off('disconnect');
-			socket.off('pong');
+			socket.off('display');
 		};
-	}, []);
+	}, [socket]);
 
 	return (
 		<MainContainer>
-			{isConnected ? (
-				<>
-					<Name>{data?.name}</Name>
-					<Major>{data?.major}</Major>
-					<Degree>학사</Degree>
-				</>
-			) : (
-				<div>
-					<h1>Not connected</h1>
-				</div>
-			)}
+			<>
+				<Name>{data?.name}</Name>
+				<Major>{data?.major}</Major>
+				<Degree>{data?.degree}</Degree>
+			</>
+
+			<Bottom>
+				<BottomLogoContainer>
+					<Logo1>2022 여름 학위수여식</Logo1>
+					<Logo2 src="/school_logo.png" />
+					<Logo3>Logo 2</Logo3>
+				</BottomLogoContainer>
+			</Bottom>
 		</MainContainer>
 	);
 }

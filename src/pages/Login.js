@@ -81,7 +81,7 @@ export default function SignIn() {
               id="studentId"
               label="학번"
               name="studentId"
-              type="number"
+              type="text"
               autoFocus
             />
             <TextField

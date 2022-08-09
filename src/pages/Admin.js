@@ -15,6 +15,7 @@ import {
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import styled from "@emotion/styled";
+import TableViewIcon from '@mui/icons-material/TableView';
 
 import ButtonAppBar from "../components/common/ButtonAppBar";
 import StickyFooter from "../components/common/StickyFooter";
@@ -99,6 +100,14 @@ export default function User({ userState, setUserState }) {
             onClick={() => navigate("/admin/qrreader")}
           >
             QR Scanner
+          </StyledButton>
+          <StyledButton
+            variant="contained"
+            size="large"
+            startIcon={<TableViewIcon />}
+            onClick={() => navigate("/admin/usertable")}
+          >
+            Usertable
           </StyledButton>
         </ButtonDiv>
         {loading ? <CircularProgress /> : <StyledCard></StyledCard>}

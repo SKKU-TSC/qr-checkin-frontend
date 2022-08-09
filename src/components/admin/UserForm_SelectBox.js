@@ -10,13 +10,7 @@ const FlexBox2 = styled.div`
   justify-content: space-between;
 `;
 
-export default function SelectLabels() {
-  const [age, setAge] = React.useState("");
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
+export default function SelectLabels({ userData, setUserData }) {
   return (
     <div>
       <FlexBox2>
@@ -27,14 +21,16 @@ export default function SelectLabels() {
           <Select
             labelId="demo-simple-select-helper-label"
             id="demo-simple-select-helper"
-            value={age}
-            label="Age"
-            onChange={handleChange}
+            value={userData.degree}
+            label="학위"
+            onChange={(e) =>
+              setUserData({ ...userData, degree: e.target.value })
+            }
           >
-            <MenuItem value={10}>학사</MenuItem>
-            <MenuItem value={20}>석사</MenuItem>
-            <MenuItem value={30}>박사</MenuItem>
-            <MenuItem value={30}>admin</MenuItem>
+            <MenuItem value={"학사"}>학사</MenuItem>
+            <MenuItem value={"석사"}>석사</MenuItem>
+            <MenuItem value={"박사"}>박사</MenuItem>
+            <MenuItem value={"admin"}>admin</MenuItem>
           </Select>
         </FormControl>
 
@@ -45,12 +41,12 @@ export default function SelectLabels() {
           <Select
             labelId="demo-simple-select-helper-label"
             id="demo-simple-select-helper"
-            value={age}
-            label="Age"
-            onChange={handleChange}
+            value={userData.role}
+            label="role"
+            onChange={(e) => setUserData({ ...userData, role: e.target.value })}
           >
-            <MenuItem value={10}>Client</MenuItem>
-            <MenuItem value={20}>Admin</MenuItem>
+            <MenuItem value={"client"}>Client</MenuItem>
+            <MenuItem value={"admin"}>Admin</MenuItem>
           </Select>
         </FormControl>
       </FlexBox2>

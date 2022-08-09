@@ -80,7 +80,7 @@ function App() {
             <Route
               path="admin"
               element={
-                <Admin userState={setUserState} setUserState={setUserState} />
+                <Admin userState={userState} setUserState={setUserState} />
               }
             />
             <Route
@@ -91,6 +91,15 @@ function App() {
             />
             <Route
               path="admin/userform"
+              element={
+                <UserFormPage
+                  userState={userState}
+                  setUserState={setUserState}
+                />
+              }
+            />
+            <Route
+              path="admin/userform/:id"
               element={
                 <UserFormPage
                   userState={userState}

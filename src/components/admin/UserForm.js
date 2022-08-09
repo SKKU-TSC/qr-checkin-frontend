@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import { addUser, updateUser } from "../../api/auth";
+import { addUser, updateUser, getOneUser } from "../../api/auth";
 import styled from "@emotion/styled";
 import SelectLabels from "./UserForm_SelectBox";
 
@@ -14,7 +14,8 @@ const FlexBox = styled.div`
   justify-content: flex-end;
 `;
 
-export default function UserForm(props) {
+export default function UserForm() {
+  const { id } = useParams();
   const [userData, setUserData] = useState({
     studentId: "",
     password: "",
@@ -23,6 +24,24 @@ export default function UserForm(props) {
     role: "client",
     degree: "학사",
   });
+  const [isUpdating, setIsUpdating] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (id) {
+      setIsUpdating(true);
+      getOneUser(id).then((user) =>
+        setUserData({
+          studentId: user.studentId,
+          password: user.password,
+          major: user.major,
+          name: user.name,
+          role: user.role,
+          degree: user.degree,
+        })
+      );
+    }
+  }, []);
 
   const create = () => {
     addUser(
@@ -33,7 +52,10 @@ export default function UserForm(props) {
       userData.role,
       userData.degree
     )
-      .then(() => alert("성공했습니다."))
+      .then(() => {
+        alert("성공했습니다.");
+        navigate("/admin/usertable");
+      })
       .catch(() => alert("실패했습니다."));
   };
 
@@ -46,26 +68,24 @@ export default function UserForm(props) {
       role: userData.role,
       degree: userData.degree,
     };
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { studentId } = useParams();
-    updateUser(studentId, body)
-      .then(() => alert("성공했습니다."))
+    updateUser(id, body)
+      .then(() => {
+        alert("성공했습니다.");
+        navigate("/admin/usertable");
+      })
       .catch(() => alert("실패했습니다."));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (props.isUpdating) {
-      update();
-    } else {
-      create();
-    }
+    if (isUpdating) update();
+    else create();
   };
   return (
     <>
       <Container component="main" maxWidth="xs">
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-          <h2>졸업생 추가</h2>
+          <h2>{isUpdating ? "졸업생 수정" : "졸업생 추가"}</h2>
           <TextField
             margin="normal"
             required
@@ -73,6 +93,7 @@ export default function UserForm(props) {
             id="studentId"
             label="학번"
             autoFocus
+            value={userData.studentId}
             onChange={(e) =>
               setUserData({ ...userData, studentId: e.target.value })
             }
@@ -95,6 +116,7 @@ export default function UserForm(props) {
             id="name"
             label="이름"
             autoFocus
+            value={userData.name}
             onChange={(e) => setUserData({ ...userData, name: e.target.value })}
           />
           <TextField
@@ -104,11 +126,12 @@ export default function UserForm(props) {
             id="major"
             label="학과"
             autoFocus
+            value={userData.major}
             onChange={(e) =>
               setUserData({ ...userData, major: e.target.value })
             }
           />
-          <SelectLabels />
+          <SelectLabels userData={userData} setUserData={setUserData} />
           <FlexBox>
             <Button
               type="submit"

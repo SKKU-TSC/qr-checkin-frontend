@@ -26,7 +26,7 @@ const StyledButton = styled(Button)`
 export default function SignIn({ userState, setUserState }) {
   const navigate = useNavigate();
 
-  //이미 로그인되어있다면 redirect 시킴
+  //이미 로그인되어있다면 redirect시킴
   const verifyUser = () => {
     if (userState) {
       if (userState.role === "admin") navigate("/admin");

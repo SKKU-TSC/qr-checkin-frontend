@@ -74,7 +74,7 @@ function downloadBlob(blob, filename) {
   setTimeout(() => URL.revokeObjectURL(objectUrl), 5000);
 }
 
-export default function UserCard(props) {
+export default function UserCard({ userState, setUserState }) {
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -91,13 +91,15 @@ export default function UserCard(props) {
   const handleLogout = () => {
     logout().then(() => {
       alert("로그아웃되었습니다.");
+      setUserState(null);
+      navigate("/");
     });
   };
 
   return (
     <StyledCard ref={canvasRef}>
       <StyledQRCodeCanvas
-        value={props.user?.studentId}
+        value={userState?.studentId}
         size={200}
         bgColor={"#ffffff"}
         fgColor={"#000000"}
@@ -122,7 +124,7 @@ export default function UserCard(props) {
           <Box sx={style}>
             <div>
               <StyledQRCodeCanvas
-                value={props.user?.studentId}
+                value={userState?.studentId}
                 size={400}
                 bgColor={"#ffffff"}
                 fgColor={"#000000"}
@@ -138,8 +140,8 @@ export default function UserCard(props) {
         </Fade>
       </Modal>
 
-      <StyledCardName variant="h3">{props.user?.name}</StyledCardName>
-      <StyledCardMajor variant="h5">{props.user?.major}</StyledCardMajor>
+      <StyledCardName variant="h3">{userState?.name}</StyledCardName>
+      <StyledCardMajor variant="h5">{userState?.major}</StyledCardMajor>
       <StyledButton
         variant="contained"
         size="large"
@@ -147,7 +149,7 @@ export default function UserCard(props) {
         onClick={() => {
           exportAsImage(
             canvasRef.current,
-            `${props.user?.name}_${props.user?.studentId}`
+            `${userState?.name}_${userState?.studentId}`
           );
         }}
       >

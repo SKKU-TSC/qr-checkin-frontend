@@ -41,7 +41,11 @@ export default function User({ userState, setUserState }) {
       <ButtonAppBar userState={userState} setUserState={setUserState} />
 
       <InnerDiv>
-        {loading ? <CircularProgress /> : <UserCard user={user} />}
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <UserCard userState={user} setUserState={setUserState} />
+        )}
       </InnerDiv>
       <StickyFooter />
     </MainDiv>

@@ -10,23 +10,23 @@ import StickyFooter from '../components/common/StickyFooter';
 import UserCard from '../components/user/UserCard';
 
 const MainDiv = styled(Container)`
-	margin: 0 !important;
-	padding: 0 !important;
-	max-width: none !important;
-	min-height: 100vh !important;
-	display: flex;
-	flex-direction: column;
-	flex-grow: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+  min-height: 100vh !important;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
 `;
 
 const InnerDiv = styled(Container)`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	align-content: center;
-	justify-content: center;
-	height: 100%;
-	margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  height: 100%;
+  margin: auto;
 `;
 
 export default function User() {

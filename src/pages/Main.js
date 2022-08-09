@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { useEffect } from "react";
 import { Typography, Container, Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { verify } from "../api/auth";
 import LoginIcon from "@mui/icons-material/Login";
 
 import ButtonAppBar from "../components/common/ButtonAppBar";
@@ -71,7 +70,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-export default function Main() {
+export default function Main({ userState, setUserState }) {
   const navigate = useNavigate();
   const verifyUser = () => {
     verify().then(
@@ -87,7 +86,7 @@ export default function Main() {
   useEffect(() => verifyUser(), []);
   return (
     <MainDiv>
-      <ButtonAppBar />
+      <ButtonAppBar userState={userState} setUserState={setUserState} />
       <InnerDiv>
         <Popup />
         <TextWrapper maxWidth="sm">

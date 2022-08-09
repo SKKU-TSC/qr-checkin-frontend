@@ -15,6 +15,7 @@ import {
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import styled from "@emotion/styled";
+import TableViewIcon from '@mui/icons-material/TableView';
 
 import ButtonAppBar from "../components/common/ButtonAppBar";
 import StickyFooter from "../components/common/StickyFooter";
@@ -62,19 +63,13 @@ const StyledButton = styled(Button)`
   margin: 0 40px;
 `;
 
-export default function User() {
+export default function User({ userState, setUserState }) {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // fetch(`/api/users/${id}`)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         setUser(data);
-    //         setLoading(false);
-    //     });
     setUser({
       id: id,
       name: "강동헌",
@@ -86,7 +81,7 @@ export default function User() {
 
   return (
     <MainDiv>
-      <ButtonAppBar />
+      <ButtonAppBar userState={userState} setUserState={setUserState} />
 
       <InnerDiv>
         <ButtonDiv>
@@ -105,6 +100,14 @@ export default function User() {
             onClick={() => navigate("/admin/qrreader")}
           >
             QR Scanner
+          </StyledButton>
+          <StyledButton
+            variant="contained"
+            size="large"
+            startIcon={<TableViewIcon />}
+            onClick={() => navigate("/admin/usertable")}
+          >
+            Usertable
           </StyledButton>
         </ButtonDiv>
         {loading ? <CircularProgress /> : <StyledCard></StyledCard>}

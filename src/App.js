@@ -4,7 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 import { SocketContext, socket } from './context/socket';
-import { verify } from '../src/api/auth';
+import { verify } from "../src/api/auth";
 
 // importing pages
 import Main from './pages/Main';
@@ -14,7 +14,6 @@ import Admin from './pages/Admin';
 import UserTable from './pages/UserTable';
 import QRReader from './pages/QRReader';
 import Presentation from './pages/Presentation';
-import PageNotFound from './pages/PageNotFound';
 
 function App() {
 	const [userState, setUserState] = useState(null);
@@ -40,17 +39,17 @@ function App() {
 		[prefersDarkMode]
 	);
 
-	useEffect(() => {
-		verify()
-			.then(
-				({
-					data: {
-						data: { role },
-					},
-				}) => setUserState(role)
-			)
-			.catch(() => setUserState(null));
-	}, []);
+  useEffect(() => {
+    verify()
+      .then(
+        ({
+          data: {
+            data: { role },
+          },
+        }) => setUserState(role)
+      )
+      .catch(() => setUserState(null));
+  }, []);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -60,14 +59,13 @@ function App() {
 					<Routes>
 						<Route path="/" element={<Main />} />
 						<Route path="login" element={<Login />} />
-						<Route path="user/:userId" element={<User />} />
-
+						<Route path="user" element={<User />}>
+							<Route path=":userId" element={<User />} />
+						</Route>
 						<Route path="admin" element={<Admin />} />
 						<Route path="admin/usertable" element={<UserTable />} />
 						<Route path="admin/qrreader" element={<QRReader />} />
-            <Route path="admin/presentation" element={<Presentation />} />
-            
-            <Route path="*" element={<PageNotFound />} />
+						<Route path="admin/presentation" element={<Presentation />} />
 					</Routes>
 				</BrowserRouter>
 			</SocketContext.Provider>

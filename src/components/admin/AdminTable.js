@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
+import { useNavigate } from "react-router-dom";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import styled from "@emotion/styled";
 
 import { getAllUsers, resetCheckInAll, resetCheckInOne } from "../../api/auth";
 
-export default function UserTable() {
-  const [users, setUsers] = useState([]);
+const FlexBox = styled.div`
+  display: flex;
+  margin-top: 10px;
+  justify-content: flex-end;
+`;
 
-  useEffect(() => {
+export default function UserTable({ userState }) {
+  const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
+
+  const fillTable = () => {
     getAllUsers().then((users) => setUsers(users));
-  }, []);
+  };
+
+  useEffect(() => fillTable(), []);
 
   return (
     <div>
-      <Button
-        variant="contained"
-        style={{ marginBottom: 10 }}
-        onClick={() => resetCheckInAll()}
-      >
-        모든 체크인 초기화
-      </Button>
       <TableContainer component={Paper}>
         <Table aria-label="simple table" stickyHeader>
           <TableHead>
@@ -35,8 +39,8 @@ export default function UserTable() {
               <TableCell align="right">전공</TableCell>
               <TableCell align="right">학위</TableCell>
               <TableCell align="right">권한</TableCell>
-              <TableCell align="right">체크인여부</TableCell>
-              <TableCell align="right">체크인초기화</TableCell>
+              <TableCell align="right">체크인 여부</TableCell>
+              <TableCell align="right">체크인 초기화</TableCell>
               <TableCell align="right">수정</TableCell>
             </TableRow>
           </TableHead>
@@ -50,20 +54,40 @@ export default function UserTable() {
                 <TableCell align="right">{row.role}</TableCell>
                 <TableCell align="right">{row.isCheckedIn ? 1 : 0}</TableCell>
                 <TableCell align="right">
-                  <button onClick={() => resetCheckInOne(row.studentId)}>
+                  <Button
+                    variant="contained"
+                    onClick={async () => {
+                      await resetCheckInOne(row.studentId);
+                      fillTable();
+                    }}
+                  >
                     Reset
-                  </button>
+                  </Button>
                 </TableCell>
                 <TableCell align="right">
-                  <button onClick={() => resetCheckInOne(row.studentId)}>
+                  <Button
+                    variant="contained"
+                    onClick={() => navigate(`/admin/userform/${row.studentId}`)}
+                  >
                     Update
-                  </button>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <FlexBox>
+        <Button
+          variant="contained"
+          onClick={async () => {
+            await resetCheckInAll();
+            fillTable();
+          }}
+        >
+          모든 체크인 초기화
+        </Button>
+      </FlexBox>
     </div>
   );
 }

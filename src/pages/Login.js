@@ -23,40 +23,45 @@ const StyledButton = styled(Button)`
   border-radius: 8px;
 `;
 
-export default function SignIn() {
+export default function SignIn({ userState, setUserState }) {
   const navigate = useNavigate();
 
+  //이미 로그인되어있다면 redirect 시킴
   const verifyUser = () => {
-    verify().then(
-      ({
-        data: {
-          data: { role },
-        },
-      }) => {
-        if (role === "admin") navigate("/admin"); //admin 유저일 경우
-        else navigate("/"); //일반 유저일 경우
-      }
-    );
+    if (userState) {
+      if (userState.role === "admin") navigate("/admin");
+      else navigate("/");
+    }
+  };
+
+  const handleLogin = async () => {
+    await verify().then(({ data: { data } }) => {
+      setUserState(data);
+    });
+    verifyUser();
   };
 
   //로그인 제출시
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(data);
     login(data.get("studentId"), data.get("password"))
       .then(() => {
-        verifyUser();
+        alert("로그인 성공!!");
+        handleLogin();
       })
-      .catch((error) => alert("로그인에 실패했습니다."));
+      .catch((error) => {
+        verifyUser();
+        alert("로그인에 실패했습니다.");
+      });
   };
 
   //이미 로그인 되었다면
-  React.useEffect(() => verifyUser(), []);
+  React.useEffect(() => verifyUser(), [userState]);
 
   return (
     <>
-      <ButtonAppBar />
+      <ButtonAppBar userState={setUserState} setUserState={setUserState} />
 
       <Container component="main" maxWidth="xs">
         <Box

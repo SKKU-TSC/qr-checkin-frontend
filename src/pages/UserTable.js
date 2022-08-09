@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import {
   Box,
@@ -35,7 +35,8 @@ const InnerDiv = styled(Container)`
   padding-bottom: 25px;
 `;
 
-export default function User() {
+export default function User({ userState, setUserState }) {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -45,12 +46,6 @@ export default function User() {
   const handleClose = () => setModalOpen(false);
 
   useEffect(() => {
-    // fetch(`/api/users/${id}`)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         setUser(data);
-    //         setLoading(false);
-    //     });
     setUser({
       id: id,
       name: "강동헌",
@@ -62,7 +57,7 @@ export default function User() {
 
   return (
     <MainDiv>
-      <ButtonAppBar />
+      <ButtonAppBar userState={userState} setUserState={setUserState} />
 
       <InnerDiv>
         {loading ? (

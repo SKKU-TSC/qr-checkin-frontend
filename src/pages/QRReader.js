@@ -1,93 +1,93 @@
-import { useEffect, useState, useContext } from 'react';
-import { Container } from '@mui/material';
-import LogoutIcon from '@mui/icons-material/Logout';
-import styled from '@emotion/styled';
-import { QrReader } from '@blackbox-vision/react-qr-reader';
-import { SocketContext } from '../context/socket';
+import { useEffect, useState, useContext } from "react";
+import { Container } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import styled from "@emotion/styled";
+import { QrReader } from "@blackbox-vision/react-qr-reader";
+import { SocketContext } from "../context/socket";
 
-import ButtonAppBar from '../components/common/ButtonAppBar';
-import StickyFooter from '../components/common/StickyFooter';
+import ButtonAppBar from "../components/common/ButtonAppBar";
+import StickyFooter from "../components/common/StickyFooter";
 
 const MainDiv = styled(Container)`
-	margin: 0 !important;
-	padding: 0 !important;
-	max-width: none !important;
-	min-height: 100vh !important;
-	display: flex;
-	flex-direction: column;
-	flex-grow: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+  min-height: 100vh !important;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
 `;
 
 const InnerDiv = styled(Container)`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	align-content: center;
-	justify-content: center;
-	margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  margin: auto;
 `;
 
-export default function QRReader() {
-	const socket = useContext(SocketContext);
-	
-	const delay = 1000;
+export default function QRReader({ userState, setUserState }) {
+  const socket = useContext(SocketContext);
 
-	const previewStyle = {
-		height: 10,
-		width: 320,
-	};
+  const delay = 1000;
 
-	const [lastResult, setLastResult] = useState(null);
-	const [isConnected, setIsConnected] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
+  const previewStyle = {
+    height: 10,
+    width: 320,
+  };
 
-	let lastResultRef = null;
+  const [lastResult, setLastResult] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-	const handleScan = (result, error) => {
-		if (lastResultRef === result?.text) {
-			return;
-		}
+  let lastResultRef = null;
 
-		if (!!result) {
-			setLastResult(result?.text);
-			console.log('send fetch');
-			lastResultRef = result?.text;
-			socket.emit('displaySet', result?.text);
-		}
+  const handleScan = (result, error) => {
+    if (lastResultRef === result?.text) {
+      return;
+    }
 
-		if (!!error) {
-			console.info(error);
-		}
-	};
+    if (!!result) {
+      setLastResult(result?.text);
+      console.log("send fetch");
+      lastResultRef = result?.text;
+      socket.emit("displaySet", result?.text);
+    }
 
-	useEffect(() => {
-		socket.on('connect', () => {
-			setIsConnected(true);
-		});
+    if (!!error) {
+      console.info(error);
+    }
+  };
 
-		socket.on('disconnect', () => {
-			setIsConnected(false);
-		});
+  useEffect(() => {
+    socket.on("connect", () => {
+      setIsConnected(true);
+    });
 
-		return () => {
-			socket.off('connect');
-			socket.off('disconnect');
-			socket.off('displaySet');
-		};
-	});
+    socket.on("disconnect", () => {
+      setIsConnected(false);
+    });
 
-	return (
-		<MainDiv>
-			<ButtonAppBar />
-			<div id="qr-reader">
-				<QrReader
-					scanDelay={delay}
-					style={previewStyle}
-					onResult={handleScan}
-					constraints={{ facingMode: 'user' }}
-				/>
-			</div>
-			<StickyFooter />
-		</MainDiv>
-	);
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("displaySet");
+    };
+  });
+
+  return (
+    <MainDiv>
+      <ButtonAppBar userState={userState} setUserState={setUserState} />
+      <div id="qr-reader">
+        <QrReader
+          scanDelay={delay}
+          style={previewStyle}
+          onResult={handleScan}
+          constraints={{ facingMode: "user" }}
+        />
+      </div>
+      <StickyFooter />
+    </MainDiv>
+  );
 }

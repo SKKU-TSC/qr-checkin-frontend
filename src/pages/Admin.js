@@ -62,19 +62,13 @@ const StyledButton = styled(Button)`
   margin: 0 40px;
 `;
 
-export default function User() {
+export default function User({ userState, setUserState }) {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // fetch(`/api/users/${id}`)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         setUser(data);
-    //         setLoading(false);
-    //     });
     setUser({
       id: id,
       name: "강동헌",
@@ -86,7 +80,7 @@ export default function User() {
 
   return (
     <MainDiv>
-      <ButtonAppBar />
+      <ButtonAppBar userState={userState} setUserState={setUserState} />
 
       <InnerDiv>
         <ButtonDiv>

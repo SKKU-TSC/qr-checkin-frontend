@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { useEffect } from "react";
 import { Typography, Container, Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { verify } from "../api/auth";
 import LoginIcon from "@mui/icons-material/Login";
 
 import ButtonAppBar from "../components/common/ButtonAppBar";
@@ -70,24 +69,17 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-export default function Main() {
+export default function Main({ userState, setUserState }) {
   const navigate = useNavigate();
-  const verifyUser = () => {
-    verify().then(
-      ({
-        data: {
-          data: { role },
-        },
-      }) => {
-        if (role === "admin") navigate("/admin"); //admin 유저일 경우
-        else navigate("/"); //일반 유저일 경우
-      }
-    );
-  };
-  useEffect(() => verifyUser(), []);
+  useEffect(() => {
+    if (userState) {
+      if (userState.role === "admin") navigate("/admin"); //admin 유저일 경우
+      else navigate("/"); //일반 유저일 경우
+    }
+  }, [userState]);
   return (
     <MainDiv>
-      <ButtonAppBar />
+      <ButtonAppBar userState={userState} setUserState={setUserState} />
       <InnerDiv>
         <TextWrapper maxWidth="sm">
           <Typography variant="h3" fontWeight={600}>

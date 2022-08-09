@@ -3,11 +3,10 @@ import { useEffect } from "react";
 import { Typography, Container, Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { verify } from "../api/auth";
-import LoginIcon from "@mui/icons-material/Login";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import ButtonAppBar from "../components/common/ButtonAppBar";
 import StickyFooter from "../components/common/StickyFooter";
-import Popup from "../components/main/Popup";
 
 const MainDiv = styled(Container)`
   margin: 0 !important;
@@ -75,12 +74,13 @@ export default function Main() {
   const navigate = useNavigate();
   const verifyUser = () => {
     verify().then(
-      (
-        {data: {data}}
-      ) => {
-        console.log(data.studentId)
-        if (data.role === "admin") navigate("/admin"); //admin 유저일 경우
-        else navigate(`/user/${data.studentId}`); //일반 유저일 경우
+      ({
+        data: {
+          data: { role },
+        },
+      }) => {
+        if (role === "admin") navigate("/admin"); //admin 유저일 경우
+        else navigate("/"); //일반 유저일 경우
       }
     );
   };
@@ -89,26 +89,22 @@ export default function Main() {
     <MainDiv>
       <ButtonAppBar />
       <InnerDiv>
-        <Popup />
         <TextWrapper maxWidth="sm">
           <Typography variant="h3" fontWeight={600}>
-            QR로 간단하게!
-          </Typography>
-          <Typography variant="h5" fontWeight={500} marginTop={1}>
-            이제 체크인은 QR로 간단하게 해보세요!
+            이런, 없는 페이지에요 🥲
           </Typography>
 
-          <StyledLink to="/login">
+          <StyledLink to="/">
             <StyledButton
               variant="contained"
               size="large"
-              startIcon={<LoginIcon />}
+              startIcon={<ArrowBackIcon />}
             >
-              로그인
+              되돌아가기
             </StyledButton>
           </StyledLink>
         </TextWrapper>
-        <StyledImage src="logo.png" alt="SKKU Logo" />
+        <StyledImage src="404.png" alt="SKKU Logo" />
       </InnerDiv>
       <StickyFooter />
     </MainDiv>

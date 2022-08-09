@@ -29,12 +29,10 @@ export default function SignIn() {
   const verifyUser = () => {
     verify().then(
       ({
-        data: {
-          data: { role },
-        },
+        data: { data }
       }) => {
-        if (role === "admin") navigate("/admin"); //admin 유저일 경우
-        else navigate("/"); //일반 유저일 경우
+        if (data.role === "admin") navigate("/admin"); //admin 유저일 경우
+        else navigate(`/user/${data.studentId}`); //일반 유저일 경우
       }
     );
   };

@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
 import { Container } from '@mui/material';
-import LogoutIcon from '@mui/icons-material/Logout';
 import styled from '@emotion/styled';
 import { QrReader } from '@blackbox-vision/react-qr-reader';
 import { SocketContext } from '../context/socket';

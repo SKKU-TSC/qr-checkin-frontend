@@ -55,6 +55,10 @@ const StyledButton = styled(Button)`
 	margin: 0 5px;
 `;
 
+const StyledDiv = styled.div`
+	margin-bottom: 10px;
+`
+
 const StyledQRCodeCanvas = styled(QRCodeCanvas)`
 	border-radius: 25px;
 `;
@@ -129,9 +133,11 @@ export default function UserCard(props) {
 					</Box>
 				</Fade>
 			</Modal>
-
+			<StyledDiv>
 			<StyledCardName variant="h3">{props.user.name}</StyledCardName>
 			<StyledCardMajor variant="h5">{props.user.major}</StyledCardMajor>
+			</StyledDiv>
+			
 			<StyledButton
 				variant="contained"
 				size="large"

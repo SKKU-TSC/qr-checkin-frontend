@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Container, CircularProgress } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 import styled from '@emotion/styled';
+import { getUser } from '../api/auth';
 
 import ButtonAppBar from '../components/common/ButtonAppBar';
 import StickyFooter from '../components/common/StickyFooter';
@@ -30,16 +32,17 @@ const InnerDiv = styled(Container)`
 export default function User() {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const userId = useParams().id;
 
 	useEffect(() => {
-		setUser({
-			id: '2021311965',
-			name: '강동헌',
-			studentId: '2021311965',
-			major: '글로벌경영학과',
-		});
-		console.log(user)
-		setLoading(false);
+		getUser(userId)
+			.then((user) => {
+				setUser(user);
+				setLoading(false);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}, []);
 
 	return (

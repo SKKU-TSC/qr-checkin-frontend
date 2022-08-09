@@ -1,4 +1,6 @@
 import { useState, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../api/auth";
 import { QRCodeCanvas } from "qrcode.react";
 import { Box, Card, Button, Modal, Fade, Backdrop } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -74,6 +76,7 @@ function downloadBlob(blob, filename) {
 
 export default function UserCard(props) {
   const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const canvasRef = useRef();
 
@@ -85,6 +88,11 @@ export default function UserCard(props) {
 
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
+  const handleLogout = () => {
+    logout().then(() => {
+      alert("로그아웃되었습니다.");
+    });
+  };
 
   return (
     <StyledCard ref={canvasRef}>
@@ -146,7 +154,12 @@ export default function UserCard(props) {
         다운 받기
       </StyledButton>
 
-      <StyledButton variant="outlined" size="large" startIcon={<LogoutIcon />}>
+      <StyledButton
+        onClick={() => handleLogout()}
+        variant="outlined"
+        size="large"
+        startIcon={<LogoutIcon />}
+      >
         로그아웃
       </StyledButton>
     </StyledCard>

@@ -32,12 +32,7 @@ export default function User({ userState, setUserState }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setUser({
-      id: "2021311965",
-      name: "강동헌",
-      studentId: "2021311965",
-      major: "글로벌경영학과",
-    });
+    setUser(userState);
     setLoading(false);
   }, [userState]);
 
@@ -46,7 +41,11 @@ export default function User({ userState, setUserState }) {
       <ButtonAppBar userState={userState} setUserState={setUserState} />
 
       <InnerDiv>
-        {loading ? <CircularProgress /> : <UserCard user={user} />}
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <UserCard userState={user} setUserState={setUserState} />
+        )}
       </InnerDiv>
       <StickyFooter />
     </MainDiv>

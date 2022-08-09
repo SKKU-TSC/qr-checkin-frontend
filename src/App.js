@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { createTheme, ThemeProvider } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import CssBaseline from '@mui/material/CssBaseline';
-import { SocketContext, socket } from './context/socket';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import CssBaseline from "@mui/material/CssBaseline";
+import { SocketContext, socket } from "./context/socket";
 import { verify } from "../src/api/auth";
 
 // importing pages
@@ -42,13 +42,7 @@ function App() {
 
   useEffect(() => {
     verify()
-      .then(
-        ({
-          data: {
-            data: { role },
-          },
-        }) => setUserState(role)
-      )
+      .then(({ data: { data } }) => setUserState(data))
       .catch(() => setUserState(null));
   }, []);
 
@@ -58,15 +52,58 @@ function App() {
       <SocketContext.Provider value={socket}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="login" element={<Login />} />
-            <Route path="user" element={<User />}>
-              <Route path=":userId" element={<User />} />
+            <Route
+              path="/"
+              element={
+                <Main userState={userState} setUserState={setUserState} />
+              }
+            />
+            <Route
+              path="login"
+              element={
+                <Login userState={userState} setUserState={setUserState} />
+              }
+            />
+            <Route
+              path="user"
+              element={
+                <User userState={userState} setUserState={setUserState} />
+              }
+            >
+              <Route
+                path=":userId"
+                element={
+                  <User userState={userState} setUserState={setUserState} />
+                }
+              />
             </Route>
-            <Route path="admin" element={<Admin />} />
-            <Route path="admin/usertable" element={<UserTable />} />
-            <Route path="admin/userform" element={<UserFormPage />} />
-            <Route path="admin/qrreader" element={<QRReader />} />
+            <Route
+              path="admin"
+              element={
+                <Admin userState={setUserState} setUserState={setUserState} />
+              }
+            />
+            <Route
+              path="admin/usertable"
+              element={
+                <UserTable userState={userState} setUserState={setUserState} />
+              }
+            />
+            <Route
+              path="admin/userform"
+              element={
+                <UserFormPage
+                  userState={userState}
+                  setUserState={setUserState}
+                />
+              }
+            />
+            <Route
+              path="admin/qrreader"
+              element={
+                <QRReader userState={userState} setUserState={setUserState} />
+              }
+            />
             <Route path="admin/presentation" element={<Presentation />} />
           </Routes>
         </BrowserRouter>

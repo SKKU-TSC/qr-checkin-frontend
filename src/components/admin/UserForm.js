@@ -4,14 +4,8 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import NativeSelect from "@mui/material/NativeSelect";
 import { addUser, updateUser } from "../../api/auth";
 import styled from "@emotion/styled";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import SelectLabels from "./UserForm_SelectBox";
 
 const FlexBox = styled.div`

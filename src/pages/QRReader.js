@@ -4,9 +4,17 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import styled from "@emotion/styled";
 import { QrReader } from "@blackbox-vision/react-qr-reader";
 import { SocketContext } from "../context/socket";
-
+import CropFreeIcon from '@mui/icons-material/CropFree';
 import ButtonAppBar from "../components/common/ButtonAppBar";
 import StickyFooter from "../components/common/StickyFooter";
+
+const Position1 = styled(Container)`
+  position : absolute;
+  display : flex;
+  justify-content : center;
+  align-items : center;
+  z-index : 9999;
+`;
 
 const MainDiv = styled(Container)`
   margin: 0 !important;
@@ -79,6 +87,9 @@ export default function QRReader({ userState, setUserState }) {
   return (
     <MainDiv>
       <ButtonAppBar userState={userState} setUserState={setUserState} />
+      <Position1>
+        <CropFreeIcon />
+      </Position1>
       <div id="qr-reader">
         <QrReader
           scanDelay={delay}

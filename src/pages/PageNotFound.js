@@ -71,20 +71,6 @@ const StyledLink = styled(Link)`
 `;
 
 export default function Main() {
-  const navigate = useNavigate();
-  const verifyUser = () => {
-    verify().then(
-      ({
-        data: {
-          data: { role },
-        },
-      }) => {
-        if (role === "admin") navigate("/admin"); //admin 유저일 경우
-        else navigate("/"); //일반 유저일 경우
-      }
-    );
-  };
-  useEffect(() => verifyUser(), []);
   return (
     <MainDiv>
       <ButtonAppBar />

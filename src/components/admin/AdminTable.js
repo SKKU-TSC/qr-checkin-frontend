@@ -18,7 +18,7 @@ const FlexBox = styled.div`
   justify-content: flex-end;
 `;
 
-export default function UserTable({ userState }) {
+export default function UserTable() {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 

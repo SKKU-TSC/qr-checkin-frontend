@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useContext, useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../api/auth";
 import { QRCodeCanvas } from "qrcode.react";
@@ -7,6 +7,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import DownloadIcon from "@mui/icons-material/Download";
 import styled from "@emotion/styled";
 import exportAsImage from "../../hooks/exportAsImage";
+import { UserContext } from "../../context/user";
 
 const StyledCard = styled(Card)`
   padding-top: 50px;
@@ -92,6 +93,14 @@ export default function UserCard(props) {
 	const handleOpen = () => setModalOpen(true);
 	const handleClose = () => setModalOpen(false);
 
+	const { userState, setUserState } = useContext(UserContext);
+	const navigate = useNavigate();
+	const handleLogout = async () => {
+		await logout();
+		await setUserState(false);
+		navigate('/');
+	}
+
 	return (
 		<StyledCard ref={canvasRef}>
 			<StyledQRCodeCanvas
@@ -154,7 +163,7 @@ export default function UserCard(props) {
 				다운 받기
 			</StyledButton>
 
-			<StyledButton variant="outlined" size="large" startIcon={<LogoutIcon />}>
+			<StyledButton variant="outlined" size="large" startIcon={<LogoutIcon />} onClick={handleLogout}>
 				로그아웃
 			</StyledButton>
 		</StyledCard>

@@ -3,7 +3,7 @@ import { Container, CircularProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 import styled from '@emotion/styled';
-import { getUser } from '../api/auth';
+import { verify } from '../api/auth';
 
 import ButtonAppBar from '../components/common/ButtonAppBar';
 import StickyFooter from '../components/common/StickyFooter';
@@ -32,12 +32,12 @@ const InnerDiv = styled(Container)`
 export default function User() {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const userId = useParams().id;
+	const {userId} = useParams();
 
 	useEffect(() => {
-		getUser(userId)
-			.then((user) => {
-				setUser(user);
+		verify()
+			.then(({ data: { data } }) => {
+				setUser(data);
 				setLoading(false);
 			})
 			.catch((err) => {

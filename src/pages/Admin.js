@@ -63,7 +63,7 @@ const StyledButton = styled(Button)`
   margin: 0 40px;
 `;
 
-export default function User({ userState, setUserState }) {
+export default function User() {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -81,7 +81,7 @@ export default function User({ userState, setUserState }) {
 
   return (
     <MainDiv>
-      <ButtonAppBar userState={userState} setUserState={setUserState} />
+      <ButtonAppBar />
 
       <InnerDiv>
         <ButtonDiv>

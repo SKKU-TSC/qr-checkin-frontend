@@ -1,4 +1,4 @@
-import { getAllUsers } from "./auth";
+import { getAllUsers } from "./users";
 
 export const userValidation = async (body) => {
   //1. 학번이 유일한지 확인

@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import { addUser, updateUser, getOneUser } from "../../api/auth";
+import { addUser, updateUser, getOneUser } from "../../api/users";
 import styled from "@emotion/styled";
 import SelectLabels from "./UserForm_SelectBox";
 

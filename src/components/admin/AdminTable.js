@@ -8,15 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import styled from "@emotion/styled";
 
-import { getAllUsers, resetCheckInAll, resetCheckInOne } from "../../api/auth";
-
-const FlexBox = styled.div`
-  display: flex;
-  margin-top: 10px;
-  justify-content: flex-end;
-`;
+import { getAllUsers } from "../../api/users";
 
 export default function UserTable() {
   const [users, setUsers] = useState([]);
@@ -39,8 +32,7 @@ export default function UserTable() {
               <TableCell align="right">전공</TableCell>
               <TableCell align="right">학위</TableCell>
               <TableCell align="right">권한</TableCell>
-              <TableCell align="right">체크인 여부</TableCell>
-              <TableCell align="right">체크인 초기화</TableCell>
+              <TableCell align="right">코멘트</TableCell>
               <TableCell align="right">수정</TableCell>
             </TableRow>
           </TableHead>
@@ -51,19 +43,8 @@ export default function UserTable() {
                 <TableCell align="right">{row.name}</TableCell>
                 <TableCell align="right">{row.major}</TableCell>
                 <TableCell align="right">{row.degree}</TableCell>
+                <TableCell align="right">{row.comment}</TableCell>
                 <TableCell align="right">{row.role}</TableCell>
-                <TableCell align="right">{row.isCheckedIn ? 1 : 0}</TableCell>
-                <TableCell align="right">
-                  <Button
-                    variant="contained"
-                    onClick={async () => {
-                      await resetCheckInOne(row.studentId);
-                      fillTable();
-                    }}
-                  >
-                    Reset
-                  </Button>
-                </TableCell>
                 <TableCell align="right">
                   <Button
                     variant="contained"
@@ -77,17 +58,6 @@ export default function UserTable() {
           </TableBody>
         </Table>
       </TableContainer>
-      <FlexBox>
-        <Button
-          variant="contained"
-          onClick={async () => {
-            await resetCheckInAll();
-            fillTable();
-          }}
-        >
-          모든 체크인 초기화
-        </Button>
-      </FlexBox>
     </div>
   );
 }

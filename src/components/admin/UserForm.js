@@ -23,6 +23,7 @@ export default function UserForm() {
     name: "",
     role: "client",
     degree: "학사",
+    comment: "",
   });
   const [isUpdating, setIsUpdating] = useState(false);
   const navigate = useNavigate();
@@ -38,6 +39,7 @@ export default function UserForm() {
           name: user.name,
           role: user.role,
           degree: user.degree,
+          comment: user.comment,
         })
       );
     }
@@ -50,7 +52,8 @@ export default function UserForm() {
       userData.major,
       userData.name,
       userData.role,
-      userData.degree
+      userData.degree,
+      userData.comment
     )
       .then(() => {
         alert("성공했습니다.");
@@ -129,6 +132,17 @@ export default function UserForm() {
             value={userData.major}
             onChange={(e) =>
               setUserData({ ...userData, major: e.target.value })
+            }
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            id="comment"
+            label="코멘트"
+            autoFocus
+            value={userData.comment}
+            onChange={(e) =>
+              setUserData({ ...userData, comment: e.target.value })
             }
           />
           <SelectLabels userData={userData} setUserData={setUserData} />

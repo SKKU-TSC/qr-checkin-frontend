@@ -8,8 +8,15 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
+import styled from "@emotion/styled";
 
 import { getAllUsers } from "../../api/users";
+
+const FlexBox = styled.div`
+  display: flex;
+  margin-top: 10px;
+  justify-content: flex-end;
+`;
 
 export default function UserTable() {
   const [users, setUsers] = useState([]);
@@ -23,6 +30,12 @@ export default function UserTable() {
 
   return (
     <div>
+      <FlexBox>
+        <Button variant="contained" onClick={() => navigate("/admin/userform")}>
+          새로운 유저 생성
+        </Button>
+      </FlexBox>
+      <hr style={{ marginBottom: "20px" }} />
       <TableContainer component={Paper}>
         <Table aria-label="simple table" stickyHeader>
           <TableHead>

@@ -43,8 +43,9 @@ export default function UserTable() {
                 <TableCell align="right">{row.name}</TableCell>
                 <TableCell align="right">{row.major}</TableCell>
                 <TableCell align="right">{row.degree}</TableCell>
-                <TableCell align="right">{row.comment}</TableCell>
                 <TableCell align="right">{row.role}</TableCell>
+                <TableCell align="right">{row.comment}</TableCell>
+
                 <TableCell align="right">
                   <Button
                     variant="contained"

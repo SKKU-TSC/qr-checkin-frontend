@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
-import { Container, CircularProgress } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Container, CircularProgress } from "@mui/material";
 
-import styled from '@emotion/styled';
-import { verify } from '../api/auth';
+import styled from "@emotion/styled";
+import { verify } from "../api/auth";
 
-import ButtonAppBar from '../components/common/ButtonAppBar';
-import StickyFooter from '../components/common/StickyFooter';
-import UserCard from '../components/user/UserCard';
+import ButtonAppBar from "../components/common/ButtonAppBar";
+import StickyFooter from "../components/common/StickyFooter";
+import UserCard from "../components/user/UserCard";
 
 const MainDiv = styled(Container)`
   margin: 0 !important;
@@ -30,29 +29,28 @@ const InnerDiv = styled(Container)`
 `;
 
 export default function User() {
-	const [user, setUser] = useState(null);
-	const [loading, setLoading] = useState(true);
-	const {userId} = useParams();
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
-		verify()
-			.then(({ data: { data } }) => {
-				setUser(data);
-				setLoading(false);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	}, []);
+  useEffect(() => {
+    verify()
+      .then(({ data: { data } }) => {
+        setUser(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-	return (
-		<MainDiv>
-			<ButtonAppBar />
+  return (
+    <MainDiv>
+      <ButtonAppBar />
 
-			<InnerDiv>
-				{loading ? <CircularProgress /> : <UserCard user={user} />}
-			</InnerDiv>
-			<StickyFooter />
-		</MainDiv>
-	);
+      <InnerDiv>
+        {loading ? <CircularProgress /> : <UserCard user={user} />}
+      </InnerDiv>
+      <StickyFooter />
+    </MainDiv>
+  );
 }

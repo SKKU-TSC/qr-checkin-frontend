@@ -5,7 +5,6 @@ import { UserContext } from "../context/user";
 //일종의 라우팅 미들웨어 역할을 함.
 
 const Redirection = ({ userState }) => {
-  console.log("about to redirect");
   switch (userState) {
     case "admin":
       return <Navigate to="/admin" />;

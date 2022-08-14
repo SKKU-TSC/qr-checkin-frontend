@@ -76,17 +76,10 @@ function App() {
               </Route>
 
               <Route
-                path="/user/:userId"
+                path="/user"
                 element={<ValidationRoute request={["client", "admin"]} />}
               >
-                <Route path="/user/:userId" element={<User />} />
-              </Route>
-
-              <Route
-                path="/user/:userId"
-                element={<ValidationRoute request={["client", "admin"]} />}
-              >
-                <Route path="/user/:userId" element={<User />} />
+                <Route path="/user" element={<User />} />
               </Route>
 
               <Route

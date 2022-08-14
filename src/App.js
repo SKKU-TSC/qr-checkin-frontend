@@ -23,7 +23,9 @@ import UserFormPage from "./pages/UserFormPage";
 import ValidationRoute from "./utils/validationRoute";
 
 function App() {
-  const [userState, setUserState] = useState(false);
+  const [userState, setUserState] = useState(
+    JSON.parse(window.localStorage.getItem("userState")) || false
+  ); //window.localStorage.getItem(KEY_이름)
   const value = useMemo(() => ({ userState, setUserState }), [userState]);
 
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -55,6 +57,12 @@ function App() {
       })
       .catch(() => setUserState(false));
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", () => {
+      window.localStorage.setItem("userState", JSON.stringify(userState));
+    });
+  }, [userState]);
 
   return (
     <ThemeProvider theme={theme}>

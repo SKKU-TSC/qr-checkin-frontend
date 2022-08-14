@@ -81,11 +81,9 @@ export default function Main() {
       .then(({ data: { data } }) => {
         if (data.role === "admin") {
           console.log("check" + data.role);
-          navigate("/admin");
           setUserState("admin");
         } //admin 유저일 경우
         else if (data.role === "client") {
-          navigate("/user");
           setUserState("client");
         } else {
           console.log("no role");

@@ -19,6 +19,9 @@ import QRReader from "./pages/QRReader";
 import Presentation from "./pages/Presentation";
 import UserFormPage from "./pages/UserFormPage";
 
+//importing routes
+import ValidationRoute from "./utils/validationRoute";
+
 function App() {
   const [userState, setUserState] = useState(false);
   const value = useMemo(() => ({ userState, setUserState }), [userState]);
@@ -60,15 +63,66 @@ function App() {
         <UserContext.Provider value={value}>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Main />} />
-              <Route path="login" element={<Login />} />
-              <Route path="/user/:userId" element={<User />} />
-              <Route path="admin" element={<Admin />} />
-              <Route path="admin/usertable" element={<UserTable />} />
-              <Route path="admin/userform" element={<UserFormPage />} />
-              <Route path="admin/userform/:id" element={<UserFormPage />} />
-              <Route path="admin/qrreader" element={<QRReader />} />
-              <Route path="admin/presentation" element={<Presentation />} />
+              {/*request에는 admin/client/false를 담는 리스트가 옵니다. */}
+              <Route path="/" element={<ValidationRoute request={[false]} />}>
+                <Route path="/" element={<Main />} />
+              </Route>
+
+              <Route
+                path="/login"
+                element={<ValidationRoute request={[false]} />}
+              >
+                <Route path="/login" element={<Login />} />
+              </Route>
+
+              <Route
+                path="/user"
+                element={<ValidationRoute request={["client", "admin"]} />}
+              >
+                <Route path="/user" element={<User />} />
+              </Route>
+
+              <Route
+                path="/admin"
+                element={<ValidationRoute request={["admin"]} />}
+              >
+                <Route path="/admin" element={<Admin />} />
+              </Route>
+
+              <Route
+                path="/admin/usertable"
+                element={<ValidationRoute request={["admin"]} />}
+              >
+                <Route path="/admin/usertable" element={<UserTable />} />
+              </Route>
+
+              <Route
+                path="/admin/userform"
+                element={<ValidationRoute request={["admin"]} />}
+              >
+                <Route path="/admin/userform" element={<UserFormPage />} />
+              </Route>
+
+              <Route
+                path="/admin/userform/:id"
+                element={<ValidationRoute request={["admin"]} />}
+              >
+                <Route path="/admin/userform/:id" element={<UserFormPage />} />
+              </Route>
+
+              <Route
+                path="/admin/qrreader"
+                element={<ValidationRoute request={["admin"]} />}
+              >
+                <Route path="/admin/qrreader" element={<QRReader />} />
+              </Route>
+
+              <Route
+                path="/admin/presentation"
+                element={<ValidationRoute request={["admin"]} />}
+              >
+                <Route path="/admin/presentation" element={<Presentation />} />
+              </Route>
             </Routes>
           </BrowserRouter>
         </UserContext.Provider>

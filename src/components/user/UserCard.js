@@ -59,8 +59,8 @@ const StyledButton = styled(Button)`
 `;
 
 const StyledDiv = styled.div`
-	margin-bottom: 10px;
-`
+  margin-bottom: 10px;
+`;
 
 const StyledQRCodeCanvas = styled(QRCodeCanvas)`
   border-radius: 25px;
@@ -80,92 +80,97 @@ function downloadBlob(blob, filename) {
 }
 
 export default function UserCard(props) {
-	const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
-	const canvasRef = useRef();
+  const canvasRef = useRef();
 
-	const downloadSVG = useCallback(() => {
-		const svg = canvasRef.current.innerHTML;
-		const img = svg.toDataURL('image/png');
-		downloadBlob(img, `myimage.png`);
-	}, []);
+  const downloadSVG = useCallback(() => {
+    const svg = canvasRef.current.innerHTML;
+    const img = svg.toDataURL("image/png");
+    downloadBlob(img, `myimage.png`);
+  }, []);
 
-	const handleOpen = () => setModalOpen(true);
-	const handleClose = () => setModalOpen(false);
+  const handleOpen = () => setModalOpen(true);
+  const handleClose = () => setModalOpen(false);
 
-	const { userState, setUserState } = useContext(UserContext);
-	const navigate = useNavigate();
-	const handleLogout = async () => {
-		await logout();
-		await setUserState(false);
-		navigate('/');
-	}
+  const { userState, setUserState } = useContext(UserContext);
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    await logout();
+    await setUserState(false);
+    navigate("/");
+  };
 
-	return (
-		<StyledCard ref={canvasRef}>
-			<StyledQRCodeCanvas
-				value={props.user.studentId}
-				size={200}
-				bgColor={'#ffffff'}
-				fgColor={'#000000'}
-				level={'L'}
-				includeMargin={true}
-			/>
-			<br />
-			<Button onClick={handleOpen}>QR 크게하기</Button>
+  return (
+    <StyledCard ref={canvasRef}>
+      <StyledQRCodeCanvas
+        value={props.user.studentId}
+        size={200}
+        bgColor={"#ffffff"}
+        fgColor={"#000000"}
+        level={"L"}
+        includeMargin={true}
+      />
+      <br />
+      <Button onClick={handleOpen}>QR 크게하기</Button>
 
-			<Modal
-				open={modalOpen}
-				onClose={handleClose}
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
-				closeAfterTransition
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 500,
-				}}
-			>
-				<Fade in={modalOpen}>
-					<Box sx={style}>
-						<div>
-							<StyledQRCodeCanvas
-								value={props.user.studentId}
-								size={400}
-								bgColor={'#ffffff'}
-								fgColor={'#000000'}
-								level={'L'}
-								includeMargin={true}
-							/>
-						</div>
+      <Modal
+        open={modalOpen}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={modalOpen}>
+          <Box sx={style}>
+            <div>
+              <StyledQRCodeCanvas
+                value={props.user.studentId}
+                size={400}
+                bgColor={"#ffffff"}
+                fgColor={"#000000"}
+                level={"L"}
+                includeMargin={true}
+              />
+            </div>
 
-						<Button onClick={handleClose} size="large" sx={{ marginTop: 2 }}>
-							나가기
-						</Button>
-					</Box>
-				</Fade>
-			</Modal>
-			<StyledDiv>
-			<StyledCardName variant="h3">{props.user.name}</StyledCardName>
-			<StyledCardMajor variant="h5">{props.user.major}</StyledCardMajor>
-			</StyledDiv>
-			
-			<StyledButton
-				variant="contained"
-				size="large"
-				startIcon={<DownloadIcon />}
-				onClick={() => {
-					exportAsImage(
-						canvasRef.current,
-						`${props.user.name}_${props.user.studentId}`
-					);
-				}}
-			>
-				다운 받기
-			</StyledButton>
+            <Button onClick={handleClose} size="large" sx={{ marginTop: 2 }}>
+              나가기
+            </Button>
+          </Box>
+        </Fade>
+      </Modal>
+      <StyledDiv>
+        <StyledCardName variant="h3">{props.user.name}</StyledCardName>
+        <StyledCardMajor variant="h5">{props.user.major}</StyledCardMajor>
+      </StyledDiv>
 
-			<StyledButton variant="outlined" size="large" startIcon={<LogoutIcon />} onClick={handleLogout}>
-				로그아웃
-			</StyledButton>
-		</StyledCard>
-	);
+      <StyledButton
+        variant="contained"
+        size="large"
+        startIcon={<DownloadIcon />}
+        onClick={() => {
+          exportAsImage(
+            canvasRef.current,
+            `${props.user.name}_${props.user.studentId}`
+          );
+        }}
+      >
+        다운 받기
+      </StyledButton>
+
+      <StyledButton
+        variant="outlined"
+        size="large"
+        startIcon={<LogoutIcon />}
+        onClick={handleLogout}
+      >
+        로그아웃
+      </StyledButton>
+    </StyledCard>
+  );
 }

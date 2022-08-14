@@ -24,6 +24,7 @@ export const logout = async () => {
     const result = await axios.post(
       `${process.env.REACT_APP_API_URL}/auth/logout`
     );
+    window.localStorage.removeItem("userState");
     return result;
   } catch (error) {
     throw new Error(error.message);

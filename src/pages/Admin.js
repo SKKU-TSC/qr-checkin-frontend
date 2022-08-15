@@ -63,12 +63,13 @@ const StyledButton = styled(Button)`
   margin: 0 40px;
 `;
 
-export default function User() {
+export default function Admin() {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
+  
+  // 왜 있는거...?
   useEffect(() => {
     setUser({
       id: id,
@@ -110,7 +111,6 @@ export default function User() {
             Usertable
           </StyledButton>
         </ButtonDiv>
-        {loading ? <CircularProgress /> : <StyledCard></StyledCard>}
       </InnerDiv>
       <StickyFooter />
       <Outlet />

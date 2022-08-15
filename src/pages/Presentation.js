@@ -37,6 +37,7 @@ const Name = styled.h1`
 	z-index: 2;
 	margin-top: 0;
 	margin-bottom: 0;
+	letter-spacing: 2.5rem;
 `;
 
 const Major = styled.h2`
@@ -47,6 +48,7 @@ const Major = styled.h2`
 	margin-top: 0;
 	margin-bottom: 0;
 	padding-bottom: 0;
+	letter-spacing: 2.5rem;
 `;
 
 const Degree = styled.h3`
@@ -57,39 +59,15 @@ const Degree = styled.h3`
 	padding-bottom: 0;
 `;
 
-const BottomLogoContainer = styled.div`
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	align-content: center;
-	justify-content: space-evenly;
-	padding-bottom: 10px;
-`;
-
-const Bottom = styled.div`
-	position: absolute;
-	bottom: 0;
-	width: 100vw;
-`;
-
-const Logo1 = styled.h1`
-	font-weight: 600;
-	font-size: 30px;
-`;
-
-const Logo2 = styled.img`
-	width: 250px;
-	height: auto;
-	object-fit: contain;
-`;
-
-const Logo3 = styled.h1`
-	font-weight: 400;
-`;
-
 export default function Presentation() {
-	const [data, setData] = useState(null);
-	const [connect, setConnect] = useState(false);
+	const [data, setData] = useState({
+		dataValues: {
+			name: '강동헌',
+			major: '글로벌경영학과',
+			comment: '엄마 아빠 사랑해~',
+		},
+	});
+	const [connect, setConnect] = useState(true);
 	const [audioBtn, setAudioBtn] = useState(false);
 	const [audioSrc, setAudioSrc] = useState(sound);
 
@@ -104,13 +82,13 @@ export default function Presentation() {
 
 	const buttonRef = useRef(null);
 
-  const playSound = async (bufferData) => {
-    const context = new AudioContext();
-    const buffer = await context.decodeAudioData(bufferData);
-    const source = context.createBufferSource();
-    source.buffer = buffer;
-    source.connect(context.destination);
-    source.start();
+	const playSound = async (bufferData) => {
+		const context = new AudioContext();
+		const buffer = await context.decodeAudioData(bufferData);
+		const source = context.createBufferSource();
+		source.buffer = buffer;
+		source.connect(context.destination);
+		source.start();
 	};
 
 	const audioSet = () => {
@@ -158,19 +136,12 @@ export default function Presentation() {
 				<>
 					<Name>{data?.dataValues.name}</Name>
 					<Major>{data?.dataValues.major}</Major>
-					<Degree>{data?.dataValues.degree}</Degree>
+					<Degree>{data?.dataValues.comment}</Degree>
 				</>
 			) : (
 				<h1>Not Connected</h1>
 			)}
 
-			<Bottom>
-				<BottomLogoContainer>
-					<Logo1>2022 여름 학위수여식</Logo1>
-					<Logo2 src="/school_logo.png" />
-					<Logo3>Logo 2</Logo3>
-				</BottomLogoContainer>
-			</Bottom>
 		</MainContainer>
 	);
 }

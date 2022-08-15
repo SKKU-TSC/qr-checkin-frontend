@@ -56,6 +56,7 @@ function App() {
         setUserState(data.role);
       })
       .catch(() => setUserState(false));
+    window.localStorage.removeItem("userState");
   }, []);
 
   useEffect(() => {

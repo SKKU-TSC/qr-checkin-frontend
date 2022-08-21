@@ -61,7 +61,7 @@ export default function UserTable() {
           style={{ flex: 0.5, width: "50px", height: "50px" }}
         />
       </div>
-      <hr style={{ marginBottom: "20px" }} />
+      <hr style={{ marginBottom: 20, marginTop: 20 }} />
       <TableContainer component={Paper}>
         <Table aria-label="simple table" stickyHeader>
           <TableHead>

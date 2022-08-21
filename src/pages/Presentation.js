@@ -60,7 +60,13 @@ const Degree = styled.h3`
 `;
 
 export default function Presentation() {
-	const [data, setData] = useState({});
+	const [data, setData] = useState({
+		dataValues: {
+			name: '',
+			major: '',
+			comment: '',
+		},
+	});
 	const [connect, setConnect] = useState(true);
 	const [audioBtn, setAudioBtn] = useState(false);
 	const [audioSrc, setAudioSrc] = useState(sound);

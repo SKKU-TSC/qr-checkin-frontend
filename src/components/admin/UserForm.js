@@ -70,6 +70,7 @@ export default function UserForm() {
       name: userData.name,
       role: userData.role,
       degree: userData.degree,
+      comment: userData.comment,
     };
     updateUser(id, body)
       .then(() => {

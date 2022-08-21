@@ -8,7 +8,7 @@ function Copyright() {
 	return (
 		<Typography variant="body2" color="text.secondary">
 			{'Copyright ©'}
-			<Link color="inherit" href="https://mui.com/">
+			<Link color="inherit" href="https://daniel2231.notion.site/LIKELION-SKKU-X-3abfc41d3b1449c7affbb1faf37c0e0d" target={"_blank"}>
 				성균관대학교 스꾸디
 			</Link>{' '}
 			{new Date().getFullYear()}

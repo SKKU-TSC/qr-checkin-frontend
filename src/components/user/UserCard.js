@@ -1,4 +1,4 @@
-import { useContext, useState, useRef, useCallback } from "react";
+import { useContext, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../api/auth";
 import { QRCodeCanvas } from "qrcode.react";
@@ -56,6 +56,7 @@ const style = {
 const StyledButton = styled(Button)`
   border-radius: 8px;
   margin: 0 5px;
+  margin-bottom: 10px;
 `;
 
 const StyledDiv = styled.div`
@@ -66,34 +67,15 @@ const StyledQRCodeCanvas = styled(QRCodeCanvas)`
   border-radius: 25px;
 `;
 
-function downloadBlob(blob, filename) {
-  const objectUrl = URL.createObjectURL(blob);
-
-  const link = document.createElement("a");
-  link.href = objectUrl;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-
-  setTimeout(() => URL.revokeObjectURL(objectUrl), 5000);
-}
-
 export default function UserCard(props) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const canvasRef = useRef();
 
-  const downloadSVG = useCallback(() => {
-    const svg = canvasRef.current.innerHTML;
-    const img = svg.toDataURL("image/png");
-    downloadBlob(img, `myimage.png`);
-  }, []);
-
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
 
-  const { userState, setUserState } = useContext(UserContext);
+  const { setUserState } = useContext(UserContext);
   const navigate = useNavigate();
   const handleLogout = async () => {
     await logout();

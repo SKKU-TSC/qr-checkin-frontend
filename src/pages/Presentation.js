@@ -60,13 +60,7 @@ const Degree = styled.h3`
 `;
 
 export default function Presentation() {
-	const [data, setData] = useState({
-		dataValues: {
-			name: '강동헌',
-			major: '글로벌경영학과',
-			comment: '엄마 아빠 사랑해~',
-		},
-	});
+	const [data, setData] = useState({});
 	const [connect, setConnect] = useState(true);
 	const [audioBtn, setAudioBtn] = useState(false);
 	const [audioSrc, setAudioSrc] = useState(sound);
@@ -141,7 +135,6 @@ export default function Presentation() {
 			) : (
 				<h1>Not Connected</h1>
 			)}
-
 		</MainContainer>
 	);
 }

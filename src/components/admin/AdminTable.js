@@ -108,9 +108,14 @@ export default function UserTable() {
         }}
       >
         <Pagination
+          hideNextButton={true}
+          hidePrevButton={true}
           count={parseInt(users.length / 10) + 1}
           color="success"
-          onChange={(e) => setPage(parseInt(e.target.textContent))}
+          onChange={(e) => {
+            console.log(e.currentTarget.textContent);
+            setPage(parseInt(e.target.textContent));
+          }}
         />
         <Button
           style={{ flex: 1, marginTop: 10 }}

@@ -57,6 +57,7 @@ const Degree = styled.h3`
 	z-index: 2;
 	margin-bottom: 0;
 	padding-bottom: 0;
+	text-align: center;
 `;
 
 export default function Presentation() {

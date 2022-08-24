@@ -18,6 +18,7 @@ import UserTable from "./pages/UserTable";
 import QRReader from "./pages/QRReader";
 import Presentation from "./pages/Presentation";
 import UserFormPage from "./pages/UserFormPage";
+import PageNotFound from "./pages/PageNotFound";
 
 //importing routes
 import ValidationRoute from "./utils/validationRoute";
@@ -132,6 +133,7 @@ function App() {
               >
                 <Route path="/admin/presentation" element={<Presentation />} />
               </Route>
+              <Route path="*" element={<PageNotFound />} />
             </Routes>
           </BrowserRouter>
         </UserContext.Provider>

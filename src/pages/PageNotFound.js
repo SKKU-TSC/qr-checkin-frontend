@@ -70,7 +70,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-export default function Main() {
+export default function PageNotFound() {
   return (
     <MainDiv>
       <ButtonAppBar />

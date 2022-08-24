@@ -5,7 +5,7 @@ import sound from '../1-hour-of-silence.mp3';
 
 const MainContainer = styled.div`
 	height: 100vh;
-	background-color: #1f321c;
+	background-color: #001327;
 	color: white;
 	display: flex;
 	flex-direction: column;

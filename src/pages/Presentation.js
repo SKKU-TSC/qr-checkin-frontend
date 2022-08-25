@@ -31,13 +31,14 @@ const MainContainer = styled.div`
 `;
 
 const Name = styled.h1`
-	font-size: 11rem;
+	font-size: 10rem;
 	font-weight: bolder;
 	letter-spacing: 0.4rem;
 	z-index: 2;
 	margin-top: 0;
 	margin-bottom: 0;
 	letter-spacing: 2.5rem;
+	text-align: center;
 `;
 
 const Major = styled.h2`
@@ -49,6 +50,7 @@ const Major = styled.h2`
 	margin-bottom: 0;
 	padding-bottom: 0;
 	letter-spacing: 2.5rem;
+	text-align: center;
 `;
 
 const Degree = styled.h3`

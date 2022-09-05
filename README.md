@@ -39,10 +39,10 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 - [x] Make file structure
 - [x] Include router
-- [ ] Make admin page
+- [x] Make admin page
 - [x] Implement QR code scanning with camera
-- [ ] Implement voice synthesis
-- [ ] Connect with backend (api)
+- [x] Implement voice synthesis
+- [x] Connect with backend (api)
 
 
 ## Learn More

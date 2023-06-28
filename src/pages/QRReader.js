@@ -3,7 +3,6 @@ import { Container } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import styled from '@emotion/styled';
 import { QrReader } from '@blackbox-vision/react-qr-reader';
-import { SocketContext } from '../context/socket';
 import CropFreeIcon from '@mui/icons-material/CropFree';
 import ButtonAppBar from '../components/common/ButtonAppBar';
 import StickyFooter from '../components/common/StickyFooter';
@@ -26,71 +25,72 @@ const MainDiv = styled(Container)`
 `;
 
 const ViewFinder = () => (
-  <>
-    <svg
-      width="100%"
-      viewBox="0 0 100 100"
-      style={{
-        top: 0,
-        left: 0,
-        zIndex: 1,
-        boxSizing: 'border-box',
-        border: '50vh solid rgba(0, 0, 0, 0.3)',
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-      }}
-    >
-      <path
-        fill="none"
-        d="M013,0 L0,0 L0,13"
-        stroke="rgba(255, 0, 0, 0.5)"
-        strokeWidth="5"
-      />
-      <path
-        fill="none"
-        d="M0,87 L0,100 L13,100"
-        stroke="rgba(255, 0, 0, 0.5)"
-        strokeWidth="5"
-      />
-      <path
-        fill="none"
-        d="M87,100 L100,100 L100,87"
-        stroke="rgba(255, 0, 0, 0.5)"
-        strokeWidth="5"
-      />
-      <path
-        fill="none"
-        d="M100,13 L100,0 87,0"
-        stroke="rgba(255, 0, 0, 0.5)"
-        strokeWidth="5"
-      />
-    </svg>
-  </>
+	<>
+		<svg
+			width="100%"
+			viewBox="0 0 100 100"
+			style={{
+				top: 0,
+				left: 0,
+				zIndex: 1,
+				boxSizing: 'border-box',
+				border: '50vh solid rgba(0, 0, 0, 0.3)',
+				position: 'absolute',
+				width: '100%',
+				height: '100%',
+			}}
+		>
+			<path
+				fill="none"
+				d="M013,0 L0,0 L0,13"
+				stroke="rgba(255, 0, 0, 0.5)"
+				strokeWidth="5"
+			/>
+			<path
+				fill="none"
+				d="M0,87 L0,100 L13,100"
+				stroke="rgba(255, 0, 0, 0.5)"
+				strokeWidth="5"
+			/>
+			<path
+				fill="none"
+				d="M87,100 L100,100 L100,87"
+				stroke="rgba(255, 0, 0, 0.5)"
+				strokeWidth="5"
+			/>
+			<path
+				fill="none"
+				d="M100,13 L100,0 87,0"
+				stroke="rgba(255, 0, 0, 0.5)"
+				strokeWidth="5"
+			/>
+		</svg>
+	</>
 );
 
-
 export default function QRReader() {
-	const socket = useContext(SocketContext);
 
 	const delay = 1000;
 
 	const [lastResult, setLastResult] = useState(null);
-	const [isConnected, setIsConnected] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
-	let lastResultRef = null;
 
 	const handleScan = (result, error) => {
-		if (lastResultRef === result?.text) {
+		if (lastResult === result?.text) {
 			return;
 		}
 
 		if (!!result) {
 			setLastResult(result?.text);
-			console.log('send fetch');
-			lastResultRef = result?.text;
-			socket.emit('displaySet', result?.text);
+			console.log(result?.text);
+			fetch(`${process.env.REACT_APP_API_URL}/qr`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ studentId: result?.text }),
+			})
 		}
 
 		if (!!error) {
@@ -98,33 +98,15 @@ export default function QRReader() {
 		}
 	};
 
-	useEffect(() => {
-		socket.on('connect', () => {
-			setIsConnected(true);
-		});
-
-		socket.on('disconnect', () => {
-			setIsConnected(false);
-		});
-
-		return () => {
-			socket.off('connect');
-			socket.off('disconnect');
-			socket.off('displaySet');
-		};
-	});
-
 	return (
 		<MainDiv>
 			<ButtonAppBar />
 
 			<div id="qr-reader">
-				
-
 				<QrReader
 					scanDelay={delay}
-          onResult={handleScan}
-          ViewFinder={ViewFinder}
+					onResult={handleScan}
+					ViewFinder={ViewFinder}
 					constraints={{ facingMode: 'user' }}
 				/>
 			</div>

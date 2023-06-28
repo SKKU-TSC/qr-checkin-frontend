@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import styled from '@emotion/styled';
-import { SocketContext } from '../context/socket';
 import sound from '../1-hour-of-silence.mp3';
 
 const MainContainer = styled.div`
@@ -81,8 +80,6 @@ export default function Presentation() {
 
 	const AudioComponent = styled.audio``;
 
-	const socket = useContext(SocketContext);
-
 	const buttonRef = useRef(null);
 
 	const playSound = async (bufferData) => {
@@ -103,23 +100,31 @@ export default function Presentation() {
 	};
 
 	useEffect(() => {
-		// on socket connect, set connect to true
-		socket.on('connect', () => {
-			setConnect(true);
-		});
+		let polling = setInterval(() => {
+			fetch(`${process.env.REACT_APP_API_URL}/presentation/present`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+				.then((res) => res.json())
+				.then((res) => {
+					setData(res);
+					playSound(res.voiceTTS.audioContent)
+				}
+			)
+				.catch((err) => {
+					console.log(err);
+				}
+			)
+		}, 1000);
 
-		socket.on('display', (socketData) => {
-			//Delete console log for production
-			console.log(socketData);
-			setData(socketData.data);
-			playSound(socketData.voiceTTS.audioContent);
-		});
+		
 
 		return () => {
-			socket.off('connect');
-			socket.off('display');
+			clearInterval(polling);
 		};
-	}, [socket]);
+	}, []);
 
 	return (
 		<MainContainer>

@@ -51,6 +51,7 @@ const StyledButton = styled(Button)`
 	border-radius: 8px;
 	padding: 10px;
 	margin: 0 40px;
+	
   width: 200px;
 
   @media (max-width: 500px) {
@@ -63,17 +64,6 @@ export default function Admin() {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
-
-	// 왜 있는거...?
-	useEffect(() => {
-		setUser({
-			id: id,
-			name: '강동헌',
-			studentId: '123456789',
-			major: '글로벌경영학과',
-		});
-		setLoading(false);
-	}, [id]);
 
 	return (
 		<MainDiv>

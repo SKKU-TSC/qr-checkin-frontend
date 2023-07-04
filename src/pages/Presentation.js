@@ -109,7 +109,7 @@ export default function Presentation() {
 			})
 				.then((res) => res.json())
 				.then((res) => {
-					setData({ dataValues: res.data });
+					setData({ dataValues: res });
 					playSound(res.voiceTTS.audioContent)
 				}
 			)

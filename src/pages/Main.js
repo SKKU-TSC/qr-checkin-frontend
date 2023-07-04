@@ -79,11 +79,11 @@ export default function Main() {
   const verifyUser = () => {
     verify()
       .then(({ data: { data } }) => {
-        if (data.role === "admin") {
+        if (data.role === "Admin") {
           console.log("check" + data.role);
           setUserState("admin");
         } //admin 유저일 경우
-        else if (data.role === "client") {
+        else if (data.role === "Client") {
           setUserState("client");
         } else {
           console.log("no role");

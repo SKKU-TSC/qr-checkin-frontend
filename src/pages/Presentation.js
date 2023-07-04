@@ -116,7 +116,7 @@ export default function Presentation() {
 							comment: res.data.comment,
 						},
 					})
-					playSound(res.voiceTTS.audioContent.data);
+					playSound(res.voiceTTS.audioContent);
 				})
 				.catch((err) => {
 					console.log(err);

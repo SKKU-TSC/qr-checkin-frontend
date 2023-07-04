@@ -69,7 +69,6 @@ export default function Presentation() {
 			comment: '',
 		},
 	});
-	const [connect, setConnect] = useState(true);
 	const [audioBtn, setAudioBtn] = useState(false);
 	const [audioSrc, setAudioSrc] = useState(sound);
 
@@ -110,8 +109,14 @@ export default function Presentation() {
 			})
 				.then((res) => res.json())
 				.then((res) => {
-					setData({ dataValues: res });
-					playSound(res.voiceTTS.audioContent);
+					setData({
+						dataValues: {
+							name: res.data.name,
+							major: res.data.major,
+							comment: res.data.comment,
+						},
+					})
+					playSound(res.voiceTTS.audioContent.data);
 				})
 				.catch((err) => {
 					console.log(err);

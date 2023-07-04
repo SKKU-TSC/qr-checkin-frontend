@@ -85,7 +85,7 @@ export default function QRReader() {
 			setLastResult(result?.text);
 			console.log(result?.text);
 			fetch(`${process.env.REACT_APP_API_URL}/qr`, {
-				method: 'POST',
+				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
 				},

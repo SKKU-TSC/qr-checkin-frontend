@@ -106,6 +106,7 @@ export default function Presentation() {
 				headers: {
 					'Content-Type': 'application/json',
 				},
+				credentials: 'include',
 			})
 				.then((res) => res.json())
 				.then((res) => {

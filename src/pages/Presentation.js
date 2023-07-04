@@ -111,16 +111,12 @@ export default function Presentation() {
 				.then((res) => res.json())
 				.then((res) => {
 					setData({ dataValues: res });
-					playSound(res.voiceTTS.audioContent)
-				}
-			)
+					playSound(res.voiceTTS.audioContent);
+				})
 				.catch((err) => {
 					console.log(err);
-				}
-			)
+				});
 		}, 1000);
-
-		
 
 		return () => {
 			clearInterval(polling);
@@ -141,15 +137,11 @@ export default function Presentation() {
 					<source src={audioSrc} />
 				</AudioComponent>
 			</>
-			{connect ? (
-				<>
-					<Name>{data?.dataValues.name}</Name>
-					<Major>{data?.dataValues.major}</Major>
-					<Degree>{data?.dataValues.comment}</Degree>
-				</>
-			) : (
-				<h1>Not Connected</h1>
-			)}
+			<>
+				<Name>{data?.dataValues.name}</Name>
+				<Major>{data?.dataValues.major}</Major>
+				<Degree>{data?.dataValues.comment}</Degree>
+			</>
 		</MainContainer>
 	);
 }

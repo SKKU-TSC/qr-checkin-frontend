@@ -4,7 +4,7 @@ import axios from "axios";
 export const getAllUsers = async () => {
   try {
     const result = await axios.get(`${process.env.REACT_APP_API_URL}/users`);
-    return result.data.data.users;
+    return result;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -16,7 +16,7 @@ export const getOneUser = async (studentId) => {
       `${process.env.REACT_APP_API_URL}/users/${studentId}`
     );
     console.log(result);
-    return result.data.data.user;
+    return result;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -58,7 +58,7 @@ export const getUser = async (studentId) => {
     const result = await axios.get(
       `${process.env.REACT_APP_API_URL}/users/${studentId}`
     );
-    return result.data.data.user;
+    return result;
   } catch (error) {
     throw new Error(error.message);
   }

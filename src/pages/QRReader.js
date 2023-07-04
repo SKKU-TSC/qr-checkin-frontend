@@ -84,12 +84,11 @@ export default function QRReader() {
 		if (!!result) {
 			setLastResult(result?.text);
 			console.log(result?.text);
-			fetch(`${process.env.REACT_APP_API_URL}/qr`, {
+			fetch(`${process.env.REACT_APP_API_URL}/presentation/qr?studentId=${result?.text}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ studentId: result?.text }),
 			})
 		}
 

@@ -61,6 +61,15 @@ const Degree = styled.h3`
 	text-align: center;
 `;
 
+function toArrayBuffer(buffer) {
+	const arrayBuffer = new ArrayBuffer(buffer.length);
+	const view = new Uint8Array(arrayBuffer);
+	for (let i = 0; i < buffer.length; ++i) {
+	  view[i] = buffer[i];
+	}
+	return arrayBuffer;
+  }
+
 export default function Presentation() {
 	const [data, setData] = useState({
 		dataValues: {
@@ -83,7 +92,7 @@ export default function Presentation() {
 
 	const playSound = async (bufferData) => {
 		const context = new AudioContext();
-		const buffer = await context.decodeAudioData(bufferData);
+		const buffer = await context.decodeAudioData(toArrayBuffer(bufferData.data));
 		const source = context.createBufferSource();
 		source.buffer = buffer;
 		source.connect(context.destination);

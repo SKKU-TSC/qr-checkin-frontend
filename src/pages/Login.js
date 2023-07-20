@@ -33,7 +33,7 @@ export default function SignIn() {
   //이미 로그인되어있다면 redirect시킴
   const verifyUser = () => {
     verify().then(({ data: { data } }) => {
-      if (data.role === "Admin") {
+      if (data.role.toLowerCase() === "admin") {
         navigate("/admin");
         setUserState("admin");
       } //admin 유저일 경우

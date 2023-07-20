@@ -53,7 +53,11 @@ function App() {
 	useEffect(() => {
 		verify()
 			.then(({ data: { data } }) => {
-				setUserState(data.role);
+				if (data.role.toLowerCase() === 'admin') {
+					setUserState('admin');
+				} else if (data.role.toLowerCase() === 'client') {
+					setUserState('client');
+				}
 			})
 			.catch(() => setUserState(false));
 		window.localStorage.removeItem('userState');

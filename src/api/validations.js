@@ -13,14 +13,14 @@ export const userValidation = async (body) => {
   }
   //2. degree와 role 유효성 검사
   if (body.degree) {
-    if (["학사", "석사", "박사", "admin"].indexOf(body.degree) < 0) {
-      alert("학위는 학사, 석사, 박사, admin 중 하나가 되어야 합니다.");
+    if (["Bachelor", "Master", "Doctor", "Admin"].indexOf(body.degree) < 0) {
+      alert("학위는 Bachelor, Master, Doctor, Admin 중 하나가 되어야 합니다.");
       return false;
     }
   }
   if (body.role) {
-    if (["client", "admin"].indexOf(body.role) < 0) {
-      alert("역할은 client, admin 중 하나가 되어야 합니다.");
+    if (["Client", "Admin"].indexOf(body.role) < 0) {
+      alert("역할은 Client, Admin 중 하나가 되어야 합니다.");
       return true;
     }
   }

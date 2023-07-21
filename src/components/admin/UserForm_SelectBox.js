@@ -27,10 +27,10 @@ export default function SelectLabels({ userData, setUserData }) {
               setUserData({ ...userData, degree: e.target.value })
             }
           >
-            <MenuItem value={"학사"}>학사</MenuItem>
-            <MenuItem value={"석사"}>석사</MenuItem>
-            <MenuItem value={"박사"}>박사</MenuItem>
-            <MenuItem value={"admin"}>admin</MenuItem>
+            <MenuItem value={"Bachelor"}>학사</MenuItem>
+            <MenuItem value={"Master"}>석사</MenuItem>
+            <MenuItem value={"Doctor"}>박사</MenuItem>
+            <MenuItem value={"Admin"}>admin</MenuItem>
           </Select>
         </FormControl>
 
@@ -45,8 +45,8 @@ export default function SelectLabels({ userData, setUserData }) {
             label="role"
             onChange={(e) => setUserData({ ...userData, role: e.target.value })}
           >
-            <MenuItem value={"client"}>Client</MenuItem>
-            <MenuItem value={"admin"}>Admin</MenuItem>
+            <MenuItem value={"Client"}>Client</MenuItem>
+            <MenuItem value={"Admin"}>Admin</MenuItem>
           </Select>
         </FormControl>
       </FlexBox2>
